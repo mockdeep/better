@@ -8,7 +8,7 @@ GIT
 GEM
   remote: http://rubygems.org/
   specs:
-    SystemTimer (1.2.1)
+    SystemTimer (1.2.2)
     actionmailer (2.3.5)
       actionpack (= 2.3.5)
     actionpack (2.3.5)
@@ -37,17 +37,18 @@ GEM
     fleximage (1.0.4)
       aws-s3
       rmagick
-    hoe (2.8.0)
+    hoe (2.9.1)
       rake (>= 0.8.7)
-    json_pure (1.4.6)
+    hominid (3.0.2)
+    json_pure (1.5.1)
     linecache (0.43)
     mime-types (1.16)
-    mocha (0.9.10)
+    mocha (0.9.11)
       rake
     mysql2 (0.2.6)
     nokogiri (1.4.4)
     object_daddy (0.4.3)
-    pg (0.10.0)
+    pg (0.10.1)
     pickle (0.3.4)
     polyglot (0.2.9)
     rack (1.0.1)
@@ -60,7 +61,7 @@ GEM
       activesupport (= 2.3.5)
       rake (>= 0.8.3)
     rake (0.8.7)
-    recurly (0.3.2)
+    recurly (0.3.3)
       activeresource (>= 2.3)
       activesupport (>= 2.3)
     reportable (1.1.2)
@@ -80,7 +81,9 @@ GEM
       linecache (>= 0.3)
     rubytree (0.8.1)
     shoulda (2.11.3)
-    sqlite3-ruby (1.3.2)
+    sqlite3 (1.3.3)
+    sqlite3-ruby (1.3.3)
+      sqlite3 (>= 1.3.3)
     term-ansicolor (1.0.4)
     test-unit (1.2.3)
       hoe (>= 1.5.1)
@@ -89,7 +92,7 @@ GEM
     webrat (0.5.3)
       nokogiri (>= 1.2.0)
       rack (>= 1.0)
-    xml-simple (1.0.12)
+    xml-simple (1.0.14)
 
 PLATFORMS
   ruby
@@ -101,6 +104,7 @@ DEPENDENCIES
   factory_girl
   fastercsv
   fleximage
+  hominid
   mocha
   mysql2
   object_daddy

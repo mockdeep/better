@@ -129,6 +129,7 @@ class User < ActiveRecord::Base
   def after_create
     activate_invitations
     User.send_later(:create_recurly_account,self.id)
+    User.add_to_mailing_list(self.id)
   end
   
   def activate_invitations
@@ -650,6 +651,14 @@ class User < ActiveRecord::Base
   # Return password digest
   def self.hash_password(clear_password)
     Digest::SHA1.hexdigest(clear_password || "")
+  end
+  
+  # Add user to mailing list (Mailchimp)
+  def self.add_to_mailing_list(id)
+    h = Hominid::API.new('510bd309f56b2f9cd6f4d82ed8083bd5-us2', {:secure => true, :timeout => 60})
+    list = h.find_list_by_name('Virtuelogic Limited List')
+    user = User.find(id)
+    h.list_subscribe(list['id'], user.mail, {'FNAME' => user.firstname, 'LNAME' => user.lastname}, 'html', false, true, true, false)
   end
 end
 

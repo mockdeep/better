@@ -12,6 +12,7 @@ gem 'comma', :require => "comma", :git => "https://github.com/crafterm/comma.git
 gem 'fastercsv'
 gem "SystemTimer", :require => "system_timer", :platforms => :ruby_18
 gem "rack-timeout"
+gem 'hominid'
 
 group :test do
   gem 'test-unit', '1.2.3'
