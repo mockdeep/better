@@ -655,8 +655,8 @@ class User < ActiveRecord::Base
   
   # Add user to mailing list (Mailchimp)
   def self.add_to_mailing_list(id)
-    h = Hominid::API.new('510bd309f56b2f9cd6f4d82ed8083bd5-us2', {:secure => true, :timeout => 60})
-    list = h.find_list_by_name('Virtuelogic Limited List')
+    h = Hominid::API.new(ENV['MAILCHIMP_KEY'], {:secure => true, :timeout => 60})
+    list = h.find_list_by_name(ENV['MAILCHIMP_ML'])
     user = User.find(id)
     h.list_subscribe(list['id'], user.mail, {'FNAME' => user.firstname, 'LNAME' => user.lastname}, 'html', false, true, true, false)
   end
