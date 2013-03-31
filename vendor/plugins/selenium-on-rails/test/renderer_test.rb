@@ -17,10 +17,10 @@ END
 
   def test_route
     get :test_file, :testname => 'html.html' #initialize the controller
-    assert_equal 'http://test.host/selenium/tests/suite%2Ftest_case.sel', 
+    assert_equal 'http://test.host/selenium/tests/suite%2Ftest_case.sel',
         @controller.url_for(:controller => 'selenium', :action => 'test_file', :testname => 'suite/test_case.sel')
   end
-  
+
   def test_html
     expected =<<END
 <html><head><title>test layout</title></head><body>
@@ -35,14 +35,14 @@ END
     File.open(test_path_for('html.html'), 'w+') { |index_file| index_file << expected }
     get :test_file, :testname => 'html.html'
     assert_headers
-    
+
     assert_text_equal expected, @response.body
   end
-  
+
   def test_path_for(name)
     "#{File.expand_path(File.dirname(__FILE__) + "/../test_data")}/#{name}"
   end
-    
+
   def test_rhtml
     get :test_file, :testname => 'rhtml.rhtml'
     assert_headers
@@ -59,10 +59,10 @@ END
 END
     assert_text_equal expected, @response.body
   end
-  
+
   def test_selenese
     get :test_file, :testname => 'selenese.sel'
-    
+
     assert_headers
     expected =<<END
 <html><head><title>test layout</title></head><body>
@@ -79,7 +79,7 @@ END
 END
     assert_text_equal expected, @response.body
   end
-  
+
   def test_rselenese
     get :test_file, :testname => 'rselenese.rsel'
     assert_headers
@@ -100,7 +100,7 @@ END
 END
     assert_text_equal expected, @response.body
   end
-  
+
   def test_partial_support
     get :test_file, :testname => 'partials/all_partials.rsel'
     assert_headers
@@ -140,18 +140,18 @@ END
 END
     assert_text_equal expected, @response.body
   end
-  
+
   def test_not_found
     get :test_file, :testname => 'missing'
     assert_response 404
     assert_equal 'Not found', @response.body
   end
-  
+
   def assert_headers
     assert_response :success
     assert_equal 'no-cache', @response.headers['Cache-control']
     assert_equal 'no-cache', @response.headers['Pragma']
     assert_equal '-1', @response.headers['Expires']
   end
-   
+
 end

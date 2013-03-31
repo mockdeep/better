@@ -94,7 +94,7 @@ function UIElement(uiElementShorthand)
     //
     // name cannot be null or an empty string. Enforce the same requirement for
     // the description.
-    
+
     /**
      * Recursively returns all permutations of argument-value pairs, given
      * a list of argument definitions. Each argument definition will have
@@ -113,7 +113,7 @@ function UIElement(uiElementShorthand)
             var defaultValues = (arguments.length > 1)
                 ? arg.getDefaultValues(opt_inDocument)
                 : arg.getDefaultValues();
-            
+
             // skip arguments for which no default values are defined
             if (defaultValues.length == 0) {
                 continue;
@@ -137,9 +137,9 @@ function UIElement(uiElementShorthand)
         }
         return permutations;
     }
-    
-    
-    
+
+
+
     /**
      * Returns a list of all testcases for this UIElement.
      */
@@ -147,9 +147,9 @@ function UIElement(uiElementShorthand)
     {
         return this.testcases;
     }
-    
-    
-    
+
+
+
     /**
      * Run all unit tests, stopping at the first failure, if any. Return true
      * if no failures encountered, false otherwise. See the following thread
@@ -172,7 +172,7 @@ function UIElement(uiElementShorthand)
                     + '" for UI element "' + this.name + '": ' + "\n"
                     + doc.firstChild.firstChild.nodeValue);
             }
-            
+
             // we're no longer using the default locators when testing, because
             // args is now required
             var locator = parse_locator(this.getLocator(testcase.args));
@@ -181,7 +181,7 @@ function UIElement(uiElementShorthand)
                 locator.string.substring(0, 2) == '//')) {
                 // try using the javascript xpath engine to avoid namespace
                 // issues. The xpath does have to be lowercase however, it
-                // seems. 
+                // seems.
                 results = eval_xpath(locator.string, doc,
                     { allowNativeXpath: false, returnOnFirstMatch: true });
             }
@@ -195,7 +195,7 @@ function UIElement(uiElementShorthand)
             if (results.length && results[0].hasAttribute('expected-result')) {
                 continue testcaseLoop;
             }
-            
+
             // testcase failed
             if (is_IDE()) {
                 var msg = 'Testcase "' + testcase.name
@@ -212,9 +212,9 @@ function UIElement(uiElementShorthand)
         }
         return true;
     };
-    
-    
-    
+
+
+
     /**
      * Creates a set of locators using permutations of default values for
      * arguments used in the locator construction. The set is returned as an
@@ -261,9 +261,9 @@ function UIElement(uiElementShorthand)
         }
         return defaultLocators;
     };
-    
-    
-    
+
+
+
     /**
      * Validate the structure of the shorthand notation this object is being
      * initialized with. Throws an exception if there's a validation error.
@@ -288,16 +288,16 @@ function UIElement(uiElementShorthand)
             throw new UIElementException(msg + 'no locator specified!');
         }
     };
-    
-    
-    
+
+
+
     this.init = function(uiElementShorthand)
     {
         this.validate(uiElementShorthand);
-        
+
         this.name = uiElementShorthand.name;
         this.description = uiElementShorthand.description;
-        
+
         // construct a new getLocator() method based on the locator property,
         // or use the provided function. We're deprecating the xpath property
         // and getXPath() function, but still allow for them for backwards
@@ -318,7 +318,7 @@ function UIElement(uiElementShorthand)
         else {
             this.getLocator = uiElementShorthand.getXPath;
         }
-        
+
         if (uiElementShorthand.genericLocator) {
             this.getGenericLocator = function() {
                 return uiElementShorthand.genericLocator;
@@ -327,11 +327,11 @@ function UIElement(uiElementShorthand)
         else if (uiElementShorthand.getGenericLocator) {
             this.getGenericLocator = uiElementShorthand.getGenericLocator;
         }
-        
+
         if (uiElementShorthand.getOffsetLocator) {
             this.getOffsetLocator = uiElementShorthand.getOffsetLocator;
         }
-        
+
         // get the testcases and local variables
         this.testcases = [];
         var localVars = {};
@@ -343,7 +343,7 @@ function UIElement(uiElementShorthand)
                     safe_alert('No args defined in ' + attr + ' for UI element '
                         + this.name + '! Skipping testcase.');
                     continue;
-                } 
+                }
                 testcase.name = attr;
                 this.testcases.push(testcase);
             }
@@ -352,7 +352,7 @@ function UIElement(uiElementShorthand)
                 localVars[attr] = uiElementShorthand[attr];
             }
         }
-        
+
         // create the arguments
         this.args = []
         this.argsOrder = [];
@@ -373,16 +373,16 @@ function UIElement(uiElementShorthand)
                     this.isDefaultLocatorConstructionDeferred = true;
                 }
             }
-            
+
         }
-        
+
         if (!this.isDefaultLocatorConstructionDeferred) {
             this.defaultLocators = this.getDefaultLocators();
         }
     };
-    
-    
-    
+
+
+
     this.init(uiElementShorthand);
 }
 
@@ -432,7 +432,7 @@ function UIArgument(uiArgumentShorthand, localVars)
     {
         var msg = "UIArgument validation error:\n"
             + print_r(uiArgumentShorthand);
-        
+
         // try really hard to throw an exception!
         if (!uiArgumentShorthand.name) {
             throw new UIArgumentException(msg + 'no name specified!');
@@ -445,9 +445,9 @@ function UIArgument(uiArgumentShorthand, localVars)
             throw new UIArgumentException(msg + 'no default values specified!');
         }
     };
-    
-    
-    
+
+
+
     /**
      * @param uiArgumentShorthand
      * @param localVars            a list of local variables
@@ -455,10 +455,10 @@ function UIArgument(uiArgumentShorthand, localVars)
     this.init = function(uiArgumentShorthand, localVars)
     {
         this.validate(uiArgumentShorthand);
-        
+
         this.name = uiArgumentShorthand.name;
         this.description = uiArgumentShorthand.description;
-        
+
         if (uiArgumentShorthand.defaultValues) {
             var defaultValues = uiArgumentShorthand.defaultValues;
             this.getDefaultValues =
@@ -467,14 +467,14 @@ function UIArgument(uiArgumentShorthand, localVars)
         else {
             this.getDefaultValues = uiArgumentShorthand.getDefaultValues;
         }
-        
+
         for (var name in localVars) {
             this[name] = localVars[name];
         }
     }
-    
-    
-    
+
+
+
     this.init(uiArgumentShorthand, localVars);
 }
 
@@ -516,9 +516,9 @@ function UISpecifier(uiSpecifierStringOrPagesetName, elementName, args)
         this.elementName = matches[2];
         this.args = (matches[3]) ? parse_kwargs(matches[3]) : {};
     };
-    
-    
-    
+
+
+
     /**
      * Override the toString() method to return the UI specifier string when
      * evaluated in a string context. Combines the UI specifier components into
@@ -542,7 +542,7 @@ function UISpecifier(uiSpecifierStringOrPagesetName, elementName, args)
             throw new UISpecifierException('Error in UISpecifier.unparse(): "'
                 + this.args + '" are not valid UI specifier args');
         }
-        
+
         uiElement = UIMap.getInstance()
             .getUIElement(this.pagesetName, this.elementName);
         if (uiElement != null) {
@@ -554,9 +554,9 @@ function UISpecifier(uiSpecifierStringOrPagesetName, elementName, args)
         }
         return this.pagesetName + '::' + this.elementName + '(' + kwargs + ')';
     };
-    
-    
-    
+
+
+
     // construct the object
     if (arguments.length < 2) {
         this._initFromUISpecifierString(uiSpecifierStringOrPagesetName);
@@ -596,12 +596,12 @@ function Pageset(pagesetShorthand)
         if (!this.pageContent(inDocument)) {
             return false;
         }
-        
+
         return true;
     }
-    
-    
-    
+
+
+
     this.getUIElements = function()
     {
         var uiElements = [];
@@ -610,9 +610,9 @@ function Pageset(pagesetShorthand)
         }
         return uiElements;
     };
-    
-    
-    
+
+
+
     /**
      * Returns a list of UI specifier string stubs representing all UI elements
      * for this pageset. Stubs contain all required arguments, but leave
@@ -638,9 +638,9 @@ function Pageset(pagesetShorthand)
         }
         return stubs;
     }
-    
-    
-    
+
+
+
     /**
      * Throws an exception on validation failure.
      */
@@ -661,20 +661,20 @@ function Pageset(pagesetShorthand)
                 + 'no path, pathRegexp, or pageContent specified!');
         }
     };
-    
-    
-    
+
+
+
     this.init = function(pagesetShorthand)
     {
         this._validate(pagesetShorthand);
-        
+
         this.name = pagesetShorthand.name;
         this.description = pagesetShorthand.description;
-        
+
         var pathPrefixRegexp = pagesetShorthand.pathPrefix
             ? RegExp.escape(pagesetShorthand.pathPrefix) : "";
         var pathRegexp = '^' + pathPrefixRegexp;
-        
+
         if (pagesetShorthand.paths != undefined) {
             pathRegexp += '(?:';
             for (var i = 0; i < pagesetShorthand.paths.length; ++i) {
@@ -699,9 +699,9 @@ function Pageset(pagesetShorthand)
             function() { return true; };
         this.uiElements = {};
     };
-    
-    
-    
+
+
+
     this.init(pagesetShorthand);
 }
 
@@ -718,18 +718,18 @@ function UIMap()
     // the singleton pattern, split into two parts so that "new" can still
     // be used, in addition to "getInstance()"
     UIMap.self = this;
-    
+
     // need to attach variables directly to the Editor object in order for them
     // to be in scope for Editor methods
     if (is_IDE()) {
         Editor.uiMap = this;
         Editor.UI_PREFIX = UI_GLOBAL.UI_PREFIX;
     }
-    
+
     this.pagesets = new Object();
-    
-    
-    
+
+
+
     /**
      * pageset[pagesetName]
      *   regexp
@@ -746,19 +746,19 @@ function UIMap()
                 + print_r(pagesetShorthand) + "\n" + e.message);
             return false;
         }
-        
+
         if (this.pagesets[pageset.name]) {
             safe_alert('Could not add pageset "' + pageset.name
                 + '": a pageset with that name already exists!');
             return false;
         }
-        
+
         this.pagesets[pageset.name] = pageset;
         return true;
     };
-    
-    
-    
+
+
+
     /**
      * @param pagesetName
      * @param uiElementShorthand  a representation of a UIElement object in
@@ -774,7 +774,7 @@ function UIMap()
                 + print_r(uiElementShorthand) + "\n" + e.message);
             return false;
         }
-        
+
         // run the element's unit tests only for the IDE, and only when the
         // IDE is starting. Make a rough guess as to the latter condition.
         if (is_IDE() && !editor.selDebugger && !uiElement.test()) {
@@ -782,7 +782,7 @@ function UIMap()
                 + '": failed testcases!');
             return false;
         }
-        
+
         try {
             this.pagesets[pagesetName].uiElements[uiElement.name] = uiElement;
         }
@@ -791,12 +791,12 @@ function UIMap()
                 + "' to pageset '" + pagesetName + "':\n" + e.message);
             return false;
         }
-        
+
         return true;
     };
-    
-    
-    
+
+
+
     /**
      * Returns the pageset for a given UI specifier string.
      *
@@ -813,9 +813,9 @@ function UIMap()
             return null;
         }
     }
-    
-    
-    
+
+
+
     /**
      * Returns the UIElement that a UISpecifierString or pageset and element
      * pair refer to.
@@ -845,9 +845,9 @@ function UIMap()
             return null;
         }
     };
-    
-    
-    
+
+
+
     /**
      * Returns a list of pagesets that "contains" the provided page,
      * represented as a document object. Containership is defined by the
@@ -867,9 +867,9 @@ function UIMap()
         }
         return pagesets;
     };
-    
-    
-    
+
+
+
     /**
      * Returns a list of all pagesets.
      *
@@ -883,9 +883,9 @@ function UIMap()
         }
         return pagesets;
     };
-    
-    
-    
+
+
+
     /**
      * Returns a list of elements on a page that a given UI specifier string,
      * maps to. If no elements are mapped to, returns an empty list..
@@ -903,9 +903,9 @@ function UIMap()
         var results = locator ? eval_locator(locator, inDocument) : [];
         return results;
     };
-    
-    
-    
+
+
+
     /**
      * Returns the locator string that a given UI specifier string maps to, or
      * null if it cannot be mapped.
@@ -922,7 +922,7 @@ function UIMap()
                 + uiSpecifierString + '": ' + e.message);
             return null;
         }
-        
+
         var uiElement = this.getUIElement(uiSpecifier.pagesetName,
             uiSpecifier.elementName);
         try {
@@ -932,9 +932,9 @@ function UIMap()
             return null;
         }
     }
-    
-    
-    
+
+
+
     /**
      * Finds and returns a UI specifier string given an element and the page
      * that it appears on.
@@ -954,7 +954,7 @@ function UIMap()
             var uiElements = pageset.getUIElements();
             for (var j = 0; j < uiElements.length; ++j) {
                 var uiElement = uiElements[j];
-                
+
                 // first test against the generic locator, if there is one.
                 // This should net some performance benefit when recording on
                 // more complicated pages.
@@ -972,7 +972,7 @@ function UIMap()
                         continue;
                     }
                 }
-                
+
                 var defaultLocators;
                 if (uiElement.isDefaultLocatorConstructionDeferred) {
                     defaultLocators = uiElement.getDefaultLocators(inDocument);
@@ -980,7 +980,7 @@ function UIMap()
                 else {
                     defaultLocators = uiElement.defaultLocators;
                 }
-                
+
                 //safe_alert(print_r(uiElement.defaultLocators));
                 for (var locator in defaultLocators) {
                     var locatedElements = eval_locator(locator, inDocument);
@@ -990,7 +990,7 @@ function UIMap()
                     else {
                         continue;
                     }
-                    
+
                     // use a heuristic to determine whether the element
                     // specified is the "same" as the element we're matching
                     if (is_fuzzy_match) {
@@ -1027,9 +1027,9 @@ function UIMap()
         }
         return false;
     };
-    
-    
-    
+
+
+
     /**
      * Returns a sorted list of UI specifier string stubs representing possible
      * UI elements for all pagesets, paired the their descriptions. Stubs
@@ -1102,7 +1102,7 @@ if (typeof(Command) == 'undefined') {
  *      }
  *  })
  *
- * Here, the command and target are fixed, but there is variability in the 
+ * Here, the command and target are fixed, but there is variability in the
  * value of the command. When a command matches, the username is saved to the
  * arguments object.
  */
@@ -1140,7 +1140,7 @@ function CommandMatcher(commandMatcherShorthand)
      */
     this.init = function(commandMatcherShorthand) {
         this.validate(commandMatcherShorthand);
-        
+
         this.command = commandMatcherShorthand.command;
         this.target = commandMatcherShorthand.target;
         this.value = commandMatcherShorthand.value || null;
@@ -1149,7 +1149,7 @@ function CommandMatcher(commandMatcherShorthand)
         this.updateArgs = commandMatcherShorthand.updateArgs ||
             function(command, args) { return args; };
     };
-    
+
     /**
      * Determines whether a given command matches. Updates args by "reference"
      * and returns true if it does; return false otherwise.
@@ -1171,11 +1171,11 @@ function CommandMatcher(commandMatcherShorthand)
                 return false;
             }
         }
-        
+
         // okay, the command matches
         return true;
     };
-    
+
     // initialization
     this.init(commandMatcherShorthand);
 }
@@ -1217,7 +1217,7 @@ function RollupRule(rollupRuleShorthand)
             throw new RollupRuleException(msg
                 + 'no expanded commands specified!');
         }
-        
+
         return true;
     };
 
@@ -1229,14 +1229,14 @@ function RollupRule(rollupRuleShorthand)
      */
     this.init = function(rollupRuleShorthand) {
         this.validate(rollupRuleShorthand);
-        
+
         this.name = rollupRuleShorthand.name;
         this.description = rollupRuleShorthand.description;
         this.pre = rollupRuleShorthand.pre || '';
         this.post = rollupRuleShorthand.post || '';
         this.alternateCommand = rollupRuleShorthand.alternateCommand;
         this.args = rollupRuleShorthand.args || [];
-        
+
         if (rollupRuleShorthand.commandMatchers) {
             // construct the rule from the list of CommandMatchers
             this.commandMatchers = [];
@@ -1251,7 +1251,7 @@ function RollupRule(rollupRuleShorthand)
                 }
                 this.commandMatchers.push(new CommandMatcher(matchers[i]));
             }
-            
+
             // returns false if the rollup doesn't match, or a rollup command
             // if it does. If returned, the command contains the
             // replacementIndexes property, which indicates which commands it
@@ -1300,7 +1300,7 @@ function RollupRule(rollupRuleShorthand)
                         }
                     }
                 }
-                
+
                 var rollup;
                 if (this.alternateCommand) {
                     rollup = new Command(this.alternateCommand,
@@ -1329,7 +1329,7 @@ function RollupRule(rollupRuleShorthand)
                 return false;
             };
         }
-        
+
         this.getExpandedCommands = function(kwargs) {
             var commands = [];
             var expandedCommands = (rollupRuleShorthand.expandedCommands
@@ -1347,7 +1347,7 @@ function RollupRule(rollupRuleShorthand)
             return commands;
         };
     };
-    
+
     this.init(rollupRuleShorthand);
 }
 
@@ -1360,7 +1360,7 @@ function RollupManager()
 {
     // singleton pattern
     RollupManager.self = this;
-    
+
     this.init = function()
     {
         this.rollupRules = {};
@@ -1392,7 +1392,7 @@ function RollupManager()
         }
         return true;
     };
-    
+
     /**
      * Returns a RollupRule by name.
      *
@@ -1403,7 +1403,7 @@ function RollupManager()
     {
         return (this.rollupRules[rollupName] || null);
     };
-    
+
     /**
      * Returns a list of name-description pairs for use in populating the
      * auto-populated target dropdown in the IDE. Rules that have an alternate
@@ -1425,7 +1425,7 @@ function RollupManager()
         }
         return targets;
     };
-    
+
     /**
      * Applies all rules to the current editor commands, asking the user in
      * each case if it's okay to perform the replacement. The rules are applied
@@ -1439,7 +1439,7 @@ function RollupManager()
     {
         var commands = editor.getTestCase().commands;
         var blacklistedRollups = {};
-    
+
         // so long as rollups were performed, we need to keep iterating through
         // the commands starting at the beginning, because further rollups may
         // potentially be applied on the newly created ones.
@@ -1452,13 +1452,13 @@ function RollupManager()
                     var rollup = rule.getRollup(commands.slice(i));
                     if (rollup) {
                         // since we passed in a sliced version of the commands
-                        // array to the getRollup() method, we need to re-add 
+                        // array to the getRollup() method, we need to re-add
                         // the offset to the replacementIndexes
                         var k = 0;
                         for (; k < rollup.replacementIndexes.length; ++k) {
                             rollup.replacementIndexes[k] += i;
                         }
-                        
+
                         // build the confirmation message
                         var msg = "Perform the following command rollup?\n\n";
                         for (k = 0; k < rollup.replacementIndexes.length; ++k) {
@@ -1469,12 +1469,12 @@ function RollupManager()
                         }
                         msg += "\n";
                         msg += rollup;
-                        
+
                         // check against blacklisted rollups
                         if (blacklistedRollups[msg]) {
                             continue;
                         }
-                        
+
                         // highlight the potentially replaced rows
                         for (k = 0; k < commands.length; ++k) {
                             var command = commands[k];
@@ -1484,7 +1484,7 @@ function RollupManager()
                             }
                             editor.view.rowUpdated(replacementIndex);
                         }
-                        
+
                         // get confirmation from user
                         if (confirm(msg)) {
                             // perform rollup
@@ -1503,14 +1503,14 @@ function RollupManager()
                             editor.view.executeAction(new TreeView
                                 .DeleteCommandAction(editor.view,deleteRanges));
                             editor.view.insertAt(i, rollup);
-                            
+
                             performedRollup = true;
                         }
                         else {
                             // cleverly remember not to try this rollup again
                             blacklistedRollups[msg] = true;
                         }
-                        
+
                         // unhighlight
                         for (k = 0; k < commands.length; ++k) {
                             commands[k].selectedForReplacement = false;
@@ -1525,7 +1525,7 @@ function RollupManager()
         }
         return commands;
     };
-    
+
     this.init();
 }
 

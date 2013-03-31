@@ -4,7 +4,7 @@
 module SeleniumOnRails::TestBuilderActions
   # Tell Selenium on Rails to clear the session and load any fixtures.  DO
   # NOT CALL THIS AGAINST NON-TEST DATABASES.
-  # The supported +options+ are <code>:keep_session</code>, 
+  # The supported +options+ are <code>:keep_session</code>,
   # <code>:fixtures</code> and <code>:clear_tables</code>
   #   setup
   #   setup :keep_session
@@ -42,13 +42,13 @@ module SeleniumOnRails::TestBuilderActions
   end
 
   # Clicks on a link, button, checkbox or radio button. If the click action
-  # causes a new page to load (like a link usually does), call 
+  # causes a new page to load (like a link usually does), call
   # +wait_for_page_to_load+.
   def click locator
     command 'click', locator
   end
-  
-  # Clicks on a link, button, checkbox or radio button. If the click action causes 
+
+  # Clicks on a link, button, checkbox or radio button. If the click action causes
   # a new page to load (like a link usually does), call wait_for_page_to_load.
   def click_at locator, coord_string
     command 'clickAt', locator, coord_string
@@ -67,7 +67,7 @@ module SeleniumOnRails::TestBuilderActions
   def key_press locator, keycode
     command 'keyPress', locator, keycode
   end
-  
+
   # Simulates a user pressing a key (without releasing it yet).
   #
   # +keycode+ is the numeric keycode of the key to be pressed, normally the
@@ -75,7 +75,7 @@ module SeleniumOnRails::TestBuilderActions
   def key_down locator, keycode
     command 'keyDown', locator, keycode
   end
-  
+
   # Simulates a user releasing a key.
   #
   # +keycode+ is the numeric keycode of the key to be released, normally the
@@ -88,14 +88,14 @@ module SeleniumOnRails::TestBuilderActions
   def mouse_over locator
     command 'mouseOver', locator
   end
-  
+
   # Simulates a user pressing the mouse button (without releasing it yet) on the
   # specified element.
   def mouse_down locator
     command 'mouseDown', locator
   end
 
-  # Sets the value of an input field, as though you typed it in. 
+  # Sets the value of an input field, as though you typed it in.
   #
   # Can also be used to set the value of combo boxes, check boxes, etc. In these
   # cases, +value+ should be the value of the option selected, not the visible
@@ -121,7 +121,7 @@ module SeleniumOnRails::TestBuilderActions
   # the selected option satisfies a specification). There are several forms of
   # Select Option Locator.
   #
-  # * label=labelPattern 
+  # * label=labelPattern
   #   matches options based on their labels, i.e. the visible text. (This is the
   #   default.)
   #     label=regexp:^[Oo]ther
@@ -132,11 +132,11 @@ module SeleniumOnRails::TestBuilderActions
   #   matches options based on their ids.
   #     id=option1
   # * index=index
-  #   matches an option based on its index (offset from zero). 
-  #     index=2 
+  #   matches an option based on its index (offset from zero).
+  #     index=2
   #
   # If no option locator prefix is provided, the default behaviour is to match
-  # on label. 
+  # on label.
   def select locator, option_locator
     command 'select', locator, option_locator
   end
@@ -189,23 +189,23 @@ module SeleniumOnRails::TestBuilderActions
   # By default, Selenium's overridden <tt>window.confirm()</tt> function will return
   # +true+, as if the user had manually clicked OK. After running this command,
   # the next call to <tt>confirm()</tt> will return +false+, as if the user had clicked
-  # Cancel. 
+  # Cancel.
   def choose_cancel_on_next_confirmation
     command 'chooseCancelOnNextConfirmation'
   end
 
   # Instructs Selenium to return the specified answer string in response to the
-  # next JavaScript prompt (<tt>window.prompt()</tt>). 
+  # next JavaScript prompt (<tt>window.prompt()</tt>).
   def answer_on_next_prompt answer
     command 'answerOnNextPrompt', answer
   end
 
-  # Simulates the user clicking the "back" button on their browser. 
+  # Simulates the user clicking the "back" button on their browser.
   def go_back
     command 'goBack'
   end
 
-  # Simulates the user clicking the "Refresh" button on their browser. 
+  # Simulates the user clicking the "Refresh" button on their browser.
   def refresh
     command 'refresh'
   end
@@ -215,20 +215,20 @@ module SeleniumOnRails::TestBuilderActions
   def close
     command 'close'
   end
-  
+
   # Simulates the user pressing the alt key and hold it down until do_alt_up()
   # is called or a new page is loaded.
   def alt_key_down
     command 'altKeyDown'
   end
-  
+
   # Simulates the user releasing the alt key.
   def alt_key_up
     command 'altKeyUp'
   end
-  
-  # Halt the currently running test, and wait for the user to press the Continue 
-  # button. This command is useful for debugging, but be careful when using it, 
+
+  # Halt the currently running test, and wait for the user to press the Continue
+  # button. This command is useful for debugging, but be careful when using it,
   # because it will force automated tests to hang until a user intervenes manually.
   #
   # NOTE: <tt>break</tt> is a reserved word in Ruby, so we have to simulate
@@ -236,114 +236,114 @@ module SeleniumOnRails::TestBuilderActions
   def brake
     command 'break'
   end
-  
+
   # Simulates the user pressing the alt key and hold it down until do_control_up()
   # is called or a new page is loaded.
   def control_key_down
     command 'controlKeyDown'
   end
-  
+
   # Simulates the user releasing the control key.
   def control_key_up
     command 'controlKeyUp'
   end
-  
-  # Create a new cookie whose path and domain are same with those of current page 
+
+  # Create a new cookie whose path and domain are same with those of current page
   # under test, unless you specified a path for this cookie explicitly.
   #
   # Arguments:
   # * <tt>name_value_pair</tt> - name and value of the cookie in a format "name=value"
-  # * <tt>options_string</tt> - options for the cookie. Currently supported options 
-  #   include 'path' and 'max_age'. The options_string's format is 
-  #   <tt>"path=/path/, max_age=60"</tt>. The order of options are irrelevant, the 
+  # * <tt>options_string</tt> - options for the cookie. Currently supported options
+  #   include 'path' and 'max_age'. The options_string's format is
+  #   <tt>"path=/path/, max_age=60"</tt>. The order of options are irrelevant, the
   #   unit of the value of 'max_age' is second.
   def create_cookie name_value_pair, options_string
     command 'createCookie', name_value_pair, options_string
   end
-  
+
   # Delete a named cookie with specified path.
   def delete_cookie name, path
     command 'deleteCookie', name, path
   end
-  
-  # Double clicks on a link, button, checkbox or radio button. If the double click action 
+
+  # Double clicks on a link, button, checkbox or radio button. If the double click action
   # causes a new page to load (like a link usually does), call <tt>wait_for_page_to_load</tt>.
   def double_click locator
     command 'doubleClick', locator
   end
-  
-  # Doubleclicks on a link, button, checkbox or radio button. If the action causes a new page 
+
+  # Doubleclicks on a link, button, checkbox or radio button. If the action causes a new page
   # to load (like a link usually does), call <tt>wait_for_page_to_load</tt>.
   def double_click_at locator, coord_string
     command 'doubleClickAt', locator, coord_string
   end
-  
+
   # Drags an element a certain distance and then drops it.
   def drag_and_drop locator, movements_string
     command 'dragAndDrop', locator, movements_string
   end
-  
+
   # Drags an element and drops it on another element.
   def drag_and_drop_to_object locator_of_object_to_be_dragged, locator_of_drag_destination_object
     command 'dragAndDropToObject', locator_of_object_to_be_dragged, locator_of_drag_destination_object
   end
-  
+
   # Prints the specified message into the third table cell in your Selenese
-  # tables. 
+  # tables.
   # Useful for debugging.
   def echo message
     command 'echo', message
   end
-    
+
   # Briefly changes the backgroundColor of the specified element yellow.
   # Useful for debugging.
   def highlight locator
     command 'highlight', locator
   end
-  
+
   # Press the meta key and hold it down until <tt>doMetaUp()</tt> is called or
   # a new page is loaded.
   def meta_key_down
     command 'metaKeyDown'
   end
-  
+
   # Release the meta key.
   def meta_key_up
     command 'metaKeyUp'
   end
-  
+
   # Simulates a user pressing the mouse button (without releasing it yet) on the specified
   # element.
   def mouse_down_at locator, coord_string
     command 'mouseDownAt', locator, coord_string
   end
-  
+
   # Simulates a user moving the mouse.
   def mouse_move locator
     command 'mouseMove', locator
   end
-  
+
   # Simulates a user moving the mouse relative to the specified element.
   def mouse_move_at locator, coord_string
     command 'mouseMoveAt', locator, coord_string
   end
-  
+
   # Simulates the user moving the mouse off the specified element.
   def mouse_out locator
     command 'mouseOut', locator
   end
-  
+
   # Simulates the user releasing the mouse button on the specified element.
   def mouse_up locator
     command 'mouseUp', locator
   end
-  
+
   # Simulates a user pressing the mouse button (without releasing it yet) on the
   # specified element.
   def mouse_up_at locator, coord_string
     command 'mouseUpAt', locator, coord_string
   end
-  
+
   # Opens a popup window (if a window with that ID isn't already open). After opening the
   # window, you'll need to select it using the <tt>select_window</tt> command.
   #
@@ -355,17 +355,17 @@ module SeleniumOnRails::TestBuilderActions
   def open_window url, window_id
     command 'openWindow', url, window_id
   end
-  
+
   # Wait for the specified amount of time (in milliseconds).
   def pause wait_time
     command 'pause', wait_time
   end
-  
+
   # Unselects all of the selected options in a multi-select element.
   def remove_all_selections locator
     command 'removeAllSelections', locator
   end
-  
+
   # Selects a frame within the current window. (You may invoke this command multiple times
   # to select nested frames.) To select the parent frame, use "relative=parent" as a
   # locator; to select the top frame, use "relative=top".
@@ -375,45 +375,45 @@ module SeleniumOnRails::TestBuilderActions
   def select_frame locator
     command 'selectFrame', locator
   end
-  
+
   # Moves the text cursor to the specified position in the given input element or textarea.
   # This method will fail if the specified element isn't an input element or textarea.
   def set_cursor_position locator, position
     command 'setCursorPosition', locator, position
   end
-  
+
   # Configure the number of pixels between "mousemove" events during dragAndDrop commands
   # (default=10).
   # Setting this value to 0 means that we'll send a "mousemove" event to every single pixel
   # in between the start location and the end location; that can be very slow, and may
   # cause some browsers to force the JavaScript to timeout.
   #
-  # If the mouse speed is greater than the distance between the two dragged objects, we'll 
+  # If the mouse speed is greater than the distance between the two dragged objects, we'll
   # just send one "mousemove" at the start location and then one final one at the end location.
   def set_mouse_speed pixels
     command 'setMouseSpeed', pixels
   end
-  
+
   # Press the shift key and hold it down until <tt>doShiftUp()</tt> is called or a new page
   # is loaded.
   def shift_key_down
     command 'shiftKeyDown'
   end
-  
+
   # Release the shift key.
   def shift_key_up
     command 'shiftKeyUp'
   end
-  
+
   # This command is a synonym for <tt>store_expression</tt>.
   def store expression, variable_name
     command 'store', expression, variable_name
   end
-  
-  # Simulates keystroke events on the specified element, as though you typed the value 
+
+  # Simulates keystroke events on the specified element, as though you typed the value
   # key-by-key.
   #
-  # This is a convenience method for calling <tt>key_down</tt>, <tt>key_up</tt>, 
+  # This is a convenience method for calling <tt>key_down</tt>, <tt>key_up</tt>,
   # <tt>key_press</tt> for every character in the specified string; this is useful for
   # dynamic UI widgets (like auto-completing combo boxes) that require explicit key events.
   #
@@ -428,22 +428,22 @@ module SeleniumOnRails::TestBuilderActions
   def type_keys locator, value
     command 'typeKeys', locator, value
   end
-  
+
   # Gives focus to a window.
   def window_focus window_name
     command 'windowFocus', window_name
   end
-  
+
   # Resize window to take up the entire screen.
   def window_maximize window_name
     command 'windowMaximize', window_name
   end
-  
-  # Writes a message to the status bar and adds a note to the browser-side log. 
+
+  # Writes a message to the status bar and adds a note to the browser-side log.
   #
   # +context+ is the message sent to the browser.
   #
-  # +log_level_threshold+ can be +nil+, <tt>:debug</tt>, <tt>:info</tt>, 
+  # +log_level_threshold+ can be +nil+, <tt>:debug</tt>, <tt>:info</tt>,
   # <tt>:warn</tt> or <tt>:error</tt>.
   def set_context context, log_level_threshold = nil
     if log_level_threshold
@@ -455,12 +455,12 @@ module SeleniumOnRails::TestBuilderActions
 
   # Runs the specified JavaScript snippet repeatedly until it evaluates to
   # +true+. The snippet may have multiple lines, but only the result of the last
-  # line will be considered. 
-  # 
+  # line will be considered.
+  #
   # Note that, by default, the snippet will be run in the runner's test window,
   # not in the window of your application. To get the window of your
   # application, you can use the JavaScript snippet
-  # <tt>selenium.browserbot.getCurrentWindow()</tt>, and then run your 
+  # <tt>selenium.browserbot.getCurrentWindow()</tt>, and then run your
   # JavaScript in there.
   #
   # +timeout+ is specified in milliseconds.
@@ -469,19 +469,19 @@ module SeleniumOnRails::TestBuilderActions
   end
 
   # Specifies the amount of time that Selenium will wait for actions to
-  # complete. 
+  # complete.
   #
   # Actions that require waiting include +open+ and the <tt>wait_for*</tt>
   # actions.
   #
-  # The default timeout is 30 seconds. 
+  # The default timeout is 30 seconds.
   #
   # +timeout+ is specified in milliseconds.
   def set_timeout timeout
     command 'setTimeout', timeout
   end
 
-  # Waits for a new page to load. 
+  # Waits for a new page to load.
   #
   # You can use this command instead of the +and_wait+ suffixes,
   # +click_and_wait+, +select_and_wait+, +type_and_wait+ etc. (which are only

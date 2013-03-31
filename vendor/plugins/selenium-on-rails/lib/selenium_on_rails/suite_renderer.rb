@@ -6,7 +6,7 @@ module SeleniumOnRails
       return 'All test cases' if [nil, '/'].include? path_to_relative_url(path)
       File.split(path)[-1].humanize
     end
-  
+
     def test_suites path
       suites = []
 
@@ -23,20 +23,20 @@ module SeleniumOnRails
       visit_all_tests path, '', nil, Proc.new {|n, p| tests << [n,p]}
       tests
     end
-  
+
     def link_to_test_case suite_name, filename
       name = suite_name + test_case_name(filename)
       link_to name, :action => :test_file, :testname => path_to_relative_url(filename).sub(/^\//,'')
     end
-  
+
     private ###############################################
-    
+
     def path_to_relative_url path
       slt = @controller.selenium_tests_path
       return nil unless path.index slt
       path.sub slt, ''
     end
-            
+
     def visit_all_tests path, suite_name, suite_consumer, test_consumer
       dirs = [] #add dirs to an array in order for files to be processed before dirs
       Dir.entries(path).sort.each do |e|
@@ -51,6 +51,6 @@ module SeleniumOnRails
       end
       #recurse through dirs
       dirs.each {|p, n| visit_all_tests p, n, suite_consumer, test_consumer }
-    end      
+    end
   end
 end

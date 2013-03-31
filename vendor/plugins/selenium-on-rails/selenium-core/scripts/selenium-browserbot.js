@@ -151,7 +151,7 @@ BrowserBot.prototype.hasAlerts = function() {
 
 BrowserBot.prototype.relayBotToRC = function(s) {
     // DGF need to do this funny trick to see if we're in PI mode, because
-    // "this" might be the window, rather than the browserbot (e.g. during window.alert) 
+    // "this" might be the window, rather than the browserbot (e.g. during window.alert)
     var piMode = this.proxyInjectionMode;
     if (!piMode) {
         if (typeof(selenium) != "undefined") {
@@ -177,7 +177,7 @@ BrowserBot.prototype.resetPopups = function() {
 
 BrowserBot.prototype.getNextAlert = function() {
     var t = this.recordedAlerts.shift();
-    if (t) { 
+    if (t) {
         t = t.replace(/\n/g, " ");  // because Selenese loses \n's when retrieving text from HTML table
     }
     this.relayBotToRC("browserbot.recordedAlerts");
@@ -689,7 +689,7 @@ BrowserBot.prototype._getFrameElement = function(win) {
             return result;
         }
     }
-    LOG.debug("_getFrameElement: frameElement="+frameElement); 
+    LOG.debug("_getFrameElement: frameElement="+frameElement);
     if (frameElement) {
         LOG.debug("frameElement.name="+frameElement.name);
     }
@@ -702,14 +702,14 @@ BrowserBot.prototype._getFrameElementByName = function(name, doc, win) {
     var i;
     frames = doc.getElementsByTagName("iframe");
     for (i = 0; i < frames.length; i++) {
-        frame = frames[i];        
+        frame = frames[i];
         if (frame.name === name) {
             return frame;
         }
     }
     frames = doc.getElementsByTagName("frame");
     for (i = 0; i < frames.length; i++) {
-        frame = frames[i];        
+        frame = frames[i];
         if (frame.name === name) {
             return frame;
         }
@@ -718,7 +718,7 @@ BrowserBot.prototype._getFrameElementByName = function(name, doc, win) {
     LOG.warn("_getFrameElementByName couldn't find a frame or iframe; checking every element for the name " + name);
     return BrowserBot.prototype.locateElementByName(win.name, win.parent.document);
 }
-    
+
 
 /**
  * Set up a polling timer that will keep checking the readyState of the document until it's complete.
@@ -985,7 +985,7 @@ BrowserBot.prototype.getWindowNameByTitle = function(windowTitle) {
             // it's probably not available to us right now anyway
         }
     }
-    
+
     try {
         if (this.topWindow.document.title == windowTitle) {
             return "";
@@ -1016,11 +1016,11 @@ BrowserBot.prototype.getCurrentWindow = function(doNotModify) {
  */
 BrowserBot.prototype.getUserWindow = function() {
     var userWindow = this.getCurrentWindow(true);
-    
+
     if (userWindow.wrappedJSObject) {
         userWindow = userWindow.wrappedJSObject;
     }
-    
+
     return userWindow;
 };
 
@@ -1174,7 +1174,7 @@ BrowserBot.prototype._maybeDeleteCookie = function(cookieName, domain, path, doc
     this.deleteCookie(cookieName, domain, path, doc);
     return (!this.getCookieByName(cookieName, doc));
 }
-    
+
 
 BrowserBot.prototype._recursivelyDeleteCookieDomains = function(cookieName, domain, path, doc) {
     var deleted = this._maybeDeleteCookie(cookieName, domain, path, doc);
@@ -1414,7 +1414,7 @@ BrowserBot.prototype.findAttribute = function(locator) {
 
     // Get the attribute value.
     var attributeValue = element.getAttribute(attributeName);
-    
+
     // IE returns an object for the "style" attribute
     if (attributeName == 'style' && typeof(attributeValue) != 'string') {
         attributeValue = attributeValue.cssText;
@@ -1795,11 +1795,11 @@ BrowserBot.prototype.locateElementByUIElement = function(locator, inDocument) {
     // offset locators are delimited by "->", which is much simpler than the
     // previous scheme involving detecting the close-paren.
     var locators = locator.split(/->/, 2);
-    
+
     var locatedElement = null;
     var pageElements = UIMap.getInstance()
         .getPageElements(locators[0], inDocument);
-    
+
     if (locators.length > 1) {
         for (var i = 0; i < pageElements.length; ++i) {
             var locatedElements = eval_locator(locators[1], inDocument,
@@ -1813,7 +1813,7 @@ BrowserBot.prototype.locateElementByUIElement = function(locator, inDocument) {
     else if (pageElements.length) {
         locatedElement = pageElements[0];
     }
-    
+
     return locatedElement;
 }
 
@@ -1972,16 +1972,16 @@ IEBrowserBot.prototype.modifyWindowToRecordPopUpDialogs = function(windowToModif
         var end_of_base_ref = doc_location.indexOf('TestRunner.html');
         var base_ref = doc_location.substring(0, end_of_base_ref);
         var runInterval = '';
-        
+
         // Only set run interval if options is defined
         if (typeof(window.runOptions) != 'undefined') {
             runInterval = "&runInterval=" + runOptions.runInterval;
         }
-            
-        var testRunnerURL = "TestRunner.html?auto=true&singletest=" 
+
+        var testRunnerURL = "TestRunner.html?auto=true&singletest="
             + escape(browserBot.modalDialogTest)
-            + "&autoURL=" 
-            + escape(url) 
+            + "&autoURL="
+            + escape(url)
             + runInterval;
         var fullURL = base_ref + testRunnerURL;
         browserBot.modalDialogTest = null;

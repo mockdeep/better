@@ -31,7 +31,7 @@ end
 module SeleniumOnRails
   class AcceptanceTestRunner
     include SeleniumOnRails::Paths
-  
+
     def run
       raise 'no browser specified, edit/create config.yml' if BROWSERS.empty?
       start_server
@@ -53,7 +53,7 @@ module SeleniumOnRails
       stop_server
       raise 'Test failures' if has_error
     end
-    
+
     private
       def start_server
         PORTS.each do |p|
@@ -72,7 +72,7 @@ module SeleniumOnRails
         end
         raise START_SERVER ? 'failed to start server': 'failed to find existing server, run script/server -e test'
       end
-      
+
       def do_start_server
         puts 'Starting server'
         @server = start_subprocess(format(SERVER_COMMAND, @port))
@@ -87,7 +87,7 @@ module SeleniumOnRails
           sleep 3
         end
       end
-    
+
       def server_check
         begin
           res = Net::HTTP.get_response HOST, TEST_RUNNER_URL, @port
@@ -97,27 +97,27 @@ module SeleniumOnRails
           return :no_response
         end
       end
-    
+
       def stop_server
         return unless defined? @server
         puts
         @server.stop 'server'
       end
-    
+
       def start_browser browser, path
         puts
         puts "Starting #{browser}"
         base_url = "http://#{HOST}:#{@port}#{BASE_URL_PATH}"
         log = log_file browser
         command = "\"#{path}\" \"http://#{HOST}:#{@port}#{TEST_RUNNER_URL}?test=tests&auto=true&baseUrl=#{base_url}&resultsUrl=postResults/#{log}&multiWindow=#{MULTI_WINDOW}\""
-        @browser = start_subprocess command    
+        @browser = start_subprocess command
         log_path log
       end
-      
+
       def stop_browser
         @browser.stop 'browser'
       end
-      
+
       def start_subprocess command
         if RUBY_PLATFORM =~ /mswin/
           SeleniumOnRails::AcceptanceTestRunner::Win32SubProcess.new command
@@ -127,7 +127,7 @@ module SeleniumOnRails
           SeleniumOnRails::AcceptanceTestRunner::UnixSubProcess.new command
         end
       end
-      
+
       def log_file browser
         FileUtils.mkdir_p(log_path(''))
         (0..100).each do |i|
@@ -136,7 +136,7 @@ module SeleniumOnRails
         end
         raise 'there are way too many files in the log directory...'
       end
-    
+
       def wait_for_completion log_file
         duration = 0
         while true
@@ -148,14 +148,14 @@ module SeleniumOnRails
         end
         puts
       end
-    
+
       def print_result result
         puts "Finished in #{result['totalTime']} seconds."
         puts
         puts "#{result['numTestPasses']} tests passed, #{result['numTestFailures']} tests failed"
         puts "(Results stored in '#{result['resultDir']}')" if result['resultDir']
       end
-        
+
   end
 end
 
@@ -182,7 +182,7 @@ class SeleniumOnRails::AcceptanceTestRunner::UnixSubProcess < SeleniumOnRails::A
   def initialize command
     puts command
     @pid = fork do
-      # Since we can't use shell redirects without screwing 
+      # Since we can't use shell redirects without screwing
       # up the pid, we'll reopen stdin and stdout instead
       # to get the same effect.
       [STDOUT,STDERR].each {|f| f.reopen '/dev/null', 'w' }
@@ -206,9 +206,9 @@ class SeleniumOnRails::AcceptanceTestRunner::SafariSubProcess < SeleniumOnRails:
       </html>
     HTML
     f.close
-    
+
     super "#{command.split.first} #{f.path}"
    end
-  
+
 end
-  
+

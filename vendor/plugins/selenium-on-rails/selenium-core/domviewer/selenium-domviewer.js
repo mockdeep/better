@@ -40,11 +40,11 @@ function displayDOM(root){
 function checkForChildren(element){
     if(!element.hasChildNodes())
         return false;
-    
+
     var nodes = element.childNodes;
     var size = nodes.length;
     var count=0;
-    
+
     for(var i=0; i< size; i++){
         var node = nodes.item(i);
         //if(node.toString()=="[object Text]"){
@@ -54,7 +54,7 @@ function checkForChildren(element){
             count++;
         }
     }
-    
+
     if(count == size)
         return false;
     else
@@ -65,12 +65,12 @@ function treeTraversal(root, level){
     var str = "";
     var nodes= null;
     var size = null;
-    //it is supposed to show the last node, 
+    //it is supposed to show the last node,
     //but the last node is always nodeText type
     //and we don't show it
     if(!root.hasChildNodes())
         return "";//displayNode(root,level,false);
-    
+
     nodes = root.childNodes;
     size = nodes.length;
 
@@ -79,7 +79,7 @@ function treeTraversal(root, level){
         //if the node is textNode, don't display
         if(element.nodeType==1){
             str+= displayNode(element,level,checkForChildren(element));
-            str+=treeTraversal(element, level+1);	
+            str+=treeTraversal(element, level+1);
         }
     }
     return str;
@@ -181,7 +181,7 @@ function hide(hlink){
     }
     var rowObj= hlink.parentNode.parentNode;
     var rowLevel = parseInt(rowObj.className.substring(LEVEL.length));
-	
+
     var sibling = rowObj.nextSibling;
     var siblingLevel = sibling.className.substring(LEVEL.length);
     if(siblingLevel.indexOf(HIDDEN)!=-1){
