@@ -887,7 +887,7 @@ Selenium.prototype.makePageLoadCondition = function(timeout) {
     }
     // if the timeout is zero, we won't wait for the page to load before returning
     if (timeout == 0) {
-    	  return;
+        return;
     }
     return Selenium.decorateFunctionWithTimeout(fnBind(this._isNewPageLoaded, this), timeout);
 };
@@ -3024,7 +3024,7 @@ Selenium.prototype.doRemoveScript = function(scriptTagId) {
 
 Selenium.prototype.doUseXpathLibrary = function(libraryName) {
     /**
-	* Allows choice of one of the available libraries.
+  * Allows choice of one of the available libraries.
     * @param libraryName name of the desired library
     * Only the following three can be chosen:
     *   ajaxslt - Google's library
@@ -3040,11 +3040,11 @@ Selenium.prototype.doUseXpathLibrary = function(libraryName) {
         return;
     }
 
-	if ((libraryName != 'ajaxslt') && (libraryName != 'javascript-xpath')) {
-		return;
-	}
+  if ((libraryName != 'ajaxslt') && (libraryName != 'javascript-xpath')) {
+    return;
+  }
 
-	this.browserbot.xpathLibrary = libraryName;
+  this.browserbot.xpathLibrary = libraryName;
 
 };
 

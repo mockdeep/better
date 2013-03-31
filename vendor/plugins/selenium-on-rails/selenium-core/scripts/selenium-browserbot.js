@@ -642,9 +642,9 @@ BrowserBot.prototype.modifySeparateTestWindowToDetectPageLoads = function(window
         addLoadListener(frameElement, this.recordPageLoad);
         frameElement[marker] = true;
         frameElement["frame"+this.uniqueId] = marker;
-	LOG.debug("dgf this.uniqueId="+this.uniqueId);
-	LOG.debug("dgf marker="+marker);
-	LOG.debug("dgf frameElement['frame'+this.uniqueId]="+frameElement['frame'+this.uniqueId]);
+  LOG.debug("dgf this.uniqueId="+this.uniqueId);
+  LOG.debug("dgf marker="+marker);
+  LOG.debug("dgf frameElement['frame'+this.uniqueId]="+frameElement['frame'+this.uniqueId]);
 frameElement[this.uniqueId] = marker;
 LOG.debug("dgf frameElement[this.uniqueId]="+frameElement[this.uniqueId]);
     } else {
@@ -908,7 +908,7 @@ BrowserBot.prototype.isPollingForLoad = function(win) {
     var frameElement = this._getFrameElement(win);
     var htaSubFrame = this._isHTASubFrame(win);
     if (frameElement && !htaSubFrame) {
-	marker = frameElement["frame"+this.uniqueId];
+  marker = frameElement["frame"+this.uniqueId];
     } else {
         marker = win[this.uniqueId];
     }

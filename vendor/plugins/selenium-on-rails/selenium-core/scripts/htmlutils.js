@@ -236,15 +236,15 @@ function normalizeSpaces(text)
     // Replace &nbsp; with a space
     var nbspPattern = new RegExp(String.fromCharCode(160), "g");
     if (browserVersion.isSafari) {
-	return replaceAll(text, String.fromCharCode(160), " ");
+  return replaceAll(text, String.fromCharCode(160), " ");
     } else {
-	return text.replace(nbspPattern, " ");
+  return text.replace(nbspPattern, " ");
     }
 }
 
 function replaceAll(text, oldText, newText) {
     while (text.indexOf(oldText) != -1) {
-	text = text.replace(oldText, newText);
+  text = text.replace(oldText, newText);
     }
     return text;
 }
@@ -560,27 +560,27 @@ function reassembleLocation(loc) {
 function canonicalize(url) {
     if(url == "about:blank")
     {
-	return url;
+  return url;
     }
     var tempLink = window.document.createElement("link");
     tempLink.href = url; // this will canonicalize the href on most browsers
     var loc = parseUrl(tempLink.href)
     if (!/\/\.\.\//.test(loc.pathname)) {
-    	return tempLink.href;
+      return tempLink.href;
     }
-  	// didn't work... let's try it the hard way
-  	var originalParts = loc.pathname.split("/");
-  	var newParts = [];
-  	newParts.push(originalParts.shift());
-  	for (var i = 0; i < originalParts.length; i++) {
-  		var part = originalParts[i];
-  		if (".." == part) {
-  			newParts.pop();
-  			continue;
-  		}
-  		newParts.push(part);
-  	}
-  	loc.pathname = newParts.join("/");
+    // didn't work... let's try it the hard way
+    var originalParts = loc.pathname.split("/");
+    var newParts = [];
+    newParts.push(originalParts.shift());
+    for (var i = 0; i < originalParts.length; i++) {
+      var part = originalParts[i];
+      if (".." == part) {
+        newParts.pop();
+        continue;
+      }
+      newParts.push(part);
+    }
+    loc.pathname = newParts.join("/");
     return reassembleLocation(loc);
 }
 
