@@ -219,15 +219,15 @@ objectExtend(RemoteRunner.prototype, {
         }
 
         if (cmdText == lastCmd) {
-	        var rightNow = new Date();
-	        var msSinceStart = rightNow.getTime() - lastCmdTime.getTime();
-	        var sinceStart = msSinceStart + "ms";
-	        if (msSinceStart > 1000) {
-		        sinceStart = Math.round(msSinceStart / 1000) + "s";
-		    }
+          var rightNow = new Date();
+          var msSinceStart = rightNow.getTime() - lastCmdTime.getTime();
+          var sinceStart = msSinceStart + "ms";
+          if (msSinceStart > 1000) {
+            sinceStart = Math.round(msSinceStart / 1000) + "s";
+        }
             cmd1 = "Same command (" + sinceStart + "): " + lastCmd;
         } else {
-	        lastCmdTime = new Date();
+          lastCmdTime = new Date();
             cmd8 = cmd7;
             cmd7 = cmd6;
             cmd6 = cmd5;
@@ -288,7 +288,7 @@ objectExtend(RemoteRunner.prototype, {
         if (this.xmlHttpForCommandsAndResults.readyState == 4) {
             // OK
             if (this.xmlHttpForCommandsAndResults.status == 200) {
-            	if (this.xmlHttpForCommandsAndResults.responseText=="") {
+              if (this.xmlHttpForCommandsAndResults.responseText=="") {
                     LOG.error("saw blank string xmlHttpForCommandsAndResults.responseText");
                     return;
                 }
@@ -486,11 +486,11 @@ function preventBrowserCaching() {
 //
 // An example of #2: if window X contains JavaScript as follows:
 //
-// 	var windowABC = window.open(...)
+//   var windowABC = window.open(...)
 //
 // Note that the example JavaScript above is equivalent to
 //
-// 	window["windowABC"] = window.open(...)
+//   window["windowABC"] = window.open(...)
 //
 function getSeleniumWindowNameURLparameters() {
     var w = (proxyInjectionMode ? selenium.browserbot.getCurrentWindow() : window).top;
@@ -502,20 +502,20 @@ function getSeleniumWindowNameURLparameters() {
         if (w.name) {
             w["seleniumWindowName"] = w.name;
         } else {
-    	    w["seleniumWindowName"] = 'generatedSeleniumWindowName_' + Math.round(100000 * Math.random());
-    	}
+          w["seleniumWindowName"] = 'generatedSeleniumWindowName_' + Math.round(100000 * Math.random());
+      }
     }
     s += w["seleniumWindowName"];
     var windowOpener = w.opener;
     for (key in windowOpener) {
         var val = null;
         try {
-    	    val = windowOpener[key];
+          val = windowOpener[key];
         }
         catch(e) {
         }
         if (val==w) {
-	    s += "&jsWindowNameVar=" + key;			// found a js variable in the opener referring to this window
+      s += "&jsWindowNameVar=" + key;      // found a js variable in the opener referring to this window
         }
     }
     return s;
@@ -623,7 +623,7 @@ Selenium.prototype.doCaptureEntirePageScreenshotToString = function(kwargs) {
     * based 64 encoded PNG file. The <em>entire</em> windows canvas is captured,
     * including parts rendered outside of the current view port.
     *
-	* Currently this only works in Mozilla and when running in chrome mode.
+  * Currently this only works in Mozilla and when running in chrome mode.
     *
     * @param kwargs  A kwargs string that modifies the way the screenshot is captured. Example: "background=#CCFFDD". This may be useful to set for capturing screenshots of less-than-ideal layouts, for example where absolute positioning causes the calculation of the canvas dimension to fail and a black background is exposed  (possibly obscuring black text).
     *

@@ -94,12 +94,12 @@ var BrowserVersion = function() {
             }
         }
         if (navigator.appVersion.match(/MSIE 6.0/)) {
-        	this.isIE6 = true;
+          this.isIE6 = true;
         }
         if ("0" == navigator.appMinorVersion) {
             this.preSV1 = true;
             if (this.isIE6) {
-            	this.appearsToBeBrokenInitialIE6 = true;
+              this.appearsToBeBrokenInitialIE6 = true;
             }
         }
         return;
