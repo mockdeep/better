@@ -9,7 +9,7 @@ example_config_file = "#{File.dirname(__FILE__)}/exceptional.yml"
 if File::exists? config_file
   puts "Exceptional config file already exists. Please ensure it is up-to-date with the current format."
   puts "See #{example_config_file}"
-else  
+else
   puts "Installing default Exceptional config"
   puts "  From #{example_config_file}"
   puts "For exceptional to work you need to configure your API Key"

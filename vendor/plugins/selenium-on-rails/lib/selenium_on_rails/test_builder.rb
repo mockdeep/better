@@ -40,7 +40,7 @@ class SeleniumOnRails::TestBuilder
     str.camelize.gsub(/^[A-Z]/) {|s| s.downcase }
   end
 
-  # Prepends _pattern_ with 'exact:' if it would be considered containing 
+  # Prepends _pattern_ with 'exact:' if it would be considered containing
   # string-match pattern otherwise.
   def exactize pattern
     pattern.include?(':') ? "exact:#{pattern}" : pattern
@@ -70,7 +70,7 @@ class SeleniumOnRails::TestBuilder
     end
   end
   # :nodoc
-  alias_method :command_verbatim, :command 
+  alias_method :command_verbatim, :command
 
   # Same as _command_ but add _AndWait_ to the name of _cmd_.
   def command_and_wait cmd, target=nil, value=nil
@@ -82,7 +82,7 @@ class SeleniumOnRails::TestBuilder
   def make_command_waiting
     self.class.send :alias_method, :command, :command_and_wait
     yield
-    self.class.send :alias_method, :command, :command_verbatim 
+    self.class.send :alias_method, :command, :command_verbatim
   end
 
 protected

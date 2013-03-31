@@ -98,7 +98,7 @@ function elementGetStyle(element, style) {
       }
     }
 
-    /** DGF necessary? 
+    /** DGF necessary?
     if (window.opera && ['left', 'top', 'right', 'bottom'].include(style))
       if (Element.getStyle(element, 'position') == 'static') value = 'auto'; */
 
@@ -287,12 +287,12 @@ function getInputValue(inputElement) {
 function triggerEvent(element, eventType, canBubble, controlKeyDown, altKeyDown, shiftKeyDown, metaKeyDown) {
     canBubble = (typeof(canBubble) == undefined) ? true : canBubble;
     if (element.fireEvent && element.ownerDocument && element.ownerDocument.createEventObject) { // IE
-        var evt = createEventObject(element, controlKeyDown, altKeyDown, shiftKeyDown, metaKeyDown);        
+        var evt = createEventObject(element, controlKeyDown, altKeyDown, shiftKeyDown, metaKeyDown);
         element.fireEvent('on' + eventType, evt);
     }
     else {
         var evt = document.createEvent('HTMLEvents');
-        
+
         try {
             evt.shiftKey = shiftKeyDown;
             evt.metaKey = metaKeyDown;
@@ -303,7 +303,7 @@ function triggerEvent(element, eventType, canBubble, controlKeyDown, altKeyDown,
             // we'll have to ignore them here
             LOG.exception(e);
         }
-        
+
         evt.initEvent(eventType, canBubble, true);
         element.dispatchEvent(evt);
     }
@@ -351,7 +351,7 @@ function triggerKeyEvent(element, eventType, keySequence, canBubble, controlKeyD
             evt.initKeyEvent(eventType, true, true, window, controlKeyDown, altKeyDown, shiftKeyDown, metaKeyDown, keycode, keycode);
         } else {
             evt = document.createEvent('UIEvents');
-            
+
             evt.shiftKey = shiftKeyDown;
             evt.metaKey = metaKeyDown;
             evt.altKey = altKeyDown;
@@ -434,9 +434,9 @@ function isArray(x) {
 
 function absolutify(url, baseUrl) {
     /** returns a relative url in its absolute form, given by baseUrl.
-    * 
+    *
     * This function is a little odd, because it can take baseUrls that
-    * aren't necessarily directories.  It uses the same rules as the HTML 
+    * aren't necessarily directories.  It uses the same rules as the HTML
     * &lt;base&gt; tag; if the baseUrl doesn't end with "/", we'll assume
     * that it points to a file, and strip the filename off to find its
     * base directory.
@@ -444,19 +444,19 @@ function absolutify(url, baseUrl) {
     * So absolutify("foo", "http://x/bar") will return "http://x/foo" (stripping off bar),
     * whereas absolutify("foo", "http://x/bar/") will return "http://x/bar/foo" (preserving bar).
     * Naturally absolutify("foo", "http://x") will return "http://x/foo", appropriately.
-    * 
+    *
     * @param url the url to make absolute; if this url is already absolute, we'll just return that, unchanged
     * @param baseUrl the baseUrl from which we'll absolutify, following the rules above.
     * @return 'url' if it was already absolute, or the absolutized version of url if it was not absolute.
     */
-    
+
     // DGF isn't there some library we could use for this?
-        
+
     if (/^\w+:/.test(url)) {
         // it's already absolute
         return url;
     }
-    
+
     var loc;
     try {
         loc = parseUrl(baseUrl);
@@ -471,34 +471,34 @@ function absolutify(url, baseUrl) {
     }
     loc.search = null;
     loc.hash = null;
-    
+
     // if url begins with /, then that's the whole pathname
     if (/^\//.test(url)) {
         loc.pathname = url;
         var result = reassembleLocation(loc);
         return result;
     }
-    
+
     // if pathname is null, then we'll just append "/" + the url
     if (!loc.pathname) {
         loc.pathname = "/" + url;
         var result = reassembleLocation(loc);
         return result;
     }
-    
+
     // if pathname ends with /, just append url
     if (/\/$/.test(loc.pathname)) {
         loc.pathname += url;
         var result = reassembleLocation(loc);
         return result;
     }
-    
+
     // if we're here, then the baseUrl has a pathname, but it doesn't end with /
     // in that case, we replace everything after the final / with the relative url
     loc.pathname = loc.pathname.replace(/[^\/\\]+$/, url);
     var result = reassembleLocation(loc);
     return result;
-    
+
 }
 
 var URL_REGEX = /^((\w+):\/\/)(([^:]+):?([^@]+)?@)?([^\/\?:]*):?(\d+)?(\/?[^\?#]+)?\??([^#]+)?#?(.+)?/;
@@ -537,15 +537,15 @@ function reassembleLocation(loc) {
     if (loc.host) {
         url += loc.host;
     }
-    
+
     if (loc.port) {
         url += ":" + loc.port;
     }
-    
+
     if (loc.pathname) {
         url += loc.pathname;
     }
-    
+
     if (loc.search) {
         url += "?" + loc.search;
     }
@@ -589,7 +589,7 @@ function extractExceptionMessage(ex) {
     if (ex.message != null) return ex.message;
     if (ex.toString && ex.toString() != null) return ex.toString();
 }
-    
+
 
 function describe(object, delimiter) {
     var props = new Array();
@@ -670,7 +670,7 @@ PatternMatcher.strategies = {
             return this.regexp.test(actual);
         };
     },
-    
+
     regexpi: function(regexpString) {
         this.regexp = new RegExp(regexpString, "i");
         this.matches = function(actual) {
@@ -936,10 +936,10 @@ objectExtend(URLConfiguration.prototype, {
     isMultiWindowMode:function() {
         return this._isQueryParameterTrue('multiWindow');
     },
-    
+
     getBaseUrl:function() {
         return this._getQueryParameter('baseUrl');
-            
+
     }
 });
 
@@ -963,11 +963,11 @@ function safeScrollIntoView(element) {
 function getTimeoutTime(timeout) {
     var now = new Date().getTime();
     var timeoutLength = parseInt(timeout);
-    
+
     if (isNaN(timeoutLength)) {
         throw new SeleniumError("Timeout is not a number: '" + timeout + "'");
     }
-    
+
     return now + timeoutLength;
 }
 
@@ -1077,7 +1077,7 @@ function parse_locator(locator)
  *                    modify how the xpath is evaluated. Here's a listing of
  *                    the meaningful keys:
  *
- *                     contextNode: 
+ *                     contextNode:
  *                       the context node from which to evaluate the xpath. If
  *                       unspecified, the context will be the root document
  *                       element.
@@ -1132,14 +1132,14 @@ function eval_xpath(xpath, inDocument, opts)
     if (browserVersion && browserVersion.isIE) {
         xpath = xpath.replace(/x:/g, '')
     }
-    
+
     var nativeXpathAvailable = inDocument.evaluate;
     var useNativeXpath = allowNativeXpath && nativeXpathAvailable;
     var useDocumentEvaluate = useNativeXpath;
 
     // When using the new and faster javascript-xpath library,
     // we'll use the TestRunner's document object, not the App-Under-Test's document.
-    // The new library only modifies the TestRunner document with the new 
+    // The new library only modifies the TestRunner document with the new
     // functionality.
     if (xpathLibrary == 'javascript-xpath' && !useNativeXpath) {
         documentForXpath = document;
@@ -1148,8 +1148,8 @@ function eval_xpath(xpath, inDocument, opts)
         documentForXpath = inDocument;
     }
     var results = [];
-    
-    // this is either native xpath or javascript-xpath via TestRunner.evaluate 
+
+    // this is either native xpath or javascript-xpath via TestRunner.evaluate
     if (useDocumentEvaluate) {
         try {
             // Regarding use of the second argument to document.evaluate():
@@ -1164,7 +1164,7 @@ function eval_xpath(xpath, inDocument, opts)
         finally{
             if (xpathResult == null) {
                 // If the result is null, we should still throw an Error.
-                throw new SeleniumError("Invalid xpath: " + xpath); 
+                throw new SeleniumError("Invalid xpath: " + xpath);
             }
         }
         var result = xpathResult.iterateNext();
@@ -1218,14 +1218,14 @@ function eval_css(locator, inDocument)
  * This function duplicates part of BrowserBot.findElement() to open up locator
  * evaluation on arbitrary documents. It returns a plain old array of located
  * elements found by using a Selenium locator.
- * 
+ *
  * Multiple results may be generated for xpath and CSS locators. Even though a
  * list could potentially be generated for other locator types, such as link,
  * we don't try for them, because they aren't very expressive location
  * strategies; if you want a list, use xpath or CSS. Furthermore, strategies
  * for these locators have been optimized to only return the first result. For
  * these types of locators, performance is more important than ideal behavior.
- * 
+ *
  * @param locator          a locator string
  * @param inDocument       the document in which to apply the locator
  * @param opt_contextNode  the context within which to evaluate the locator
@@ -1235,7 +1235,7 @@ function eval_css(locator, inDocument)
 function eval_locator(locator, inDocument, opt_contextNode)
 {
     locator = parse_locator(locator);
-    
+
     var pageBot;
     if (typeof(selenium) != 'undefined' && selenium != undefined) {
         if (typeof(editor) == 'undefined' || editor.state == 'playing') {
@@ -1252,9 +1252,9 @@ function eval_locator(locator, inDocument, opt_contextNode)
         }
         pageBot = UI_GLOBAL.mozillaBrowserBot;
     }
-    
+
     var results = [];
-    
+
     if (locator.type == 'xpath' || (locator.string.charAt(0) == '/' &&
         locator.type == 'implicit')) {
         results = eval_xpath(locator.string, inDocument,
@@ -1270,7 +1270,7 @@ function eval_locator(locator, inDocument, opt_contextNode)
             results.push(element);
         }
     }
-    
+
     return results;
 }
 
@@ -1288,11 +1288,11 @@ RegExp.escape = (function() {
         '/', '.', '*', '+', '?', '|', '^', '$',
         '(', ')', '[', ']', '{', '}', '\\'
     ];
-    
+
     var sRE = new RegExp(
         '(\\' + specials.join('|\\') + ')', 'g'
     );
-  
+
     return function(text) {
         return text.replace(sRE, '\\$1');
     }
@@ -1310,7 +1310,7 @@ function are_equal(a1, a2)
 {
     if (typeof(a1) != typeof(a2))
         return false;
-    
+
     switch(typeof(a1)) {
         case 'object':
             // arrays
@@ -1337,7 +1337,7 @@ function are_equal(a1, a2)
                 }
             }
             return true;
-            
+
         default:
             return a1 == a2;
     }
@@ -1467,7 +1467,7 @@ function keys(object)
  *               up from zero to the value of the start parameter. Note that
  *               the array returned will count up to but will not include this
  *               value.
- * @return       an array of consecutive integers. 
+ * @return       an array of consecutive integers.
  */
 function range(start, end)
 {
@@ -1475,7 +1475,7 @@ function range(start, end)
         var end = start;
         start = 0;
     }
-    
+
     var r = [];
     if (start < end) {
         while (start != end)

@@ -1,6 +1,6 @@
 module Exceptional
   module Bootstrap
-    
+
     # called from init.rb
     def bootstrap(environment, application_root)
       begin

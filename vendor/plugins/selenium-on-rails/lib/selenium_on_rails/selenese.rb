@@ -5,7 +5,7 @@ end
 ActionView::Template.register_template_handler 'sel', SeleniumOnRails::Selenese
 
 
-class SeleniumOnRails::Selenese  
+class SeleniumOnRails::Selenese
   def initialize view
     @view = view
   end
@@ -20,7 +20,7 @@ class SeleniumOnRails::Selenese
     raise 'You cannot have comments in the middle of commands!' if next_line lines, :any
     html
   end
-  
+
   private
     def next_line lines, expects
       while lines.any?
@@ -34,7 +34,7 @@ class SeleniumOnRails::Selenese
         return l
       end
     end
-    
+
     def self.call(template)
       "#{name}.new(self).render(template, local_assigns)"
     end

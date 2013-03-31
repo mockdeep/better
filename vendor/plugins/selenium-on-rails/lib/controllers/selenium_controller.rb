@@ -3,11 +3,11 @@ require 'webrick/httputils'
 class SeleniumController < ActionController::Base
   include SeleniumOnRails::FixtureLoader
   include SeleniumOnRails::Renderer
-  
+
   def initialize
     @result_dir = SeleniumOnRailsConfig.get(:result_dir)
   end
-  
+
   def setup
     unless params.has_key? :keep_session
       reset_session #  IS THIS WORKING!  NO THINK SO
@@ -58,9 +58,9 @@ class SeleniumController < ActionController::Base
     ['result', 'numTestFailures', 'numTestPasses', 'numCommandFailures', 'numCommandPasses', 'numCommandErrors', 'totalTime'].each do |item|
       @result[item] = params[item]
     end
-    
+
     File.open(log_path(params[:logFile] || 'default.yml'), 'w') {|f| YAML.dump(@result, f)}
-    
+
     render :file => view_path('record.rhtml'), :layout => layout_path
   end
 
@@ -117,6 +117,6 @@ EOS
     end
     cur_result_dir
   end
-  
+
   private :record_table
 end

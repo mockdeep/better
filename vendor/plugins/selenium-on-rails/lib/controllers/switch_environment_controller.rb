@@ -8,7 +8,7 @@ class SwitchEnvironmentController < ActionController::Base
   <%= RAILS_ENV %>).
 </p>
 <p>
-  Start your server in a different environment or see <tt><%= readme_path %></tt> 
+  Start your server in a different environment or see <tt><%= readme_path %></tt>
   for information regarding how to change this behavior.
 </p>
 END

@@ -24,7 +24,7 @@ module Exceptional
         # TODO No data required to authenticate, send a nil string? hacky
         # TODO should retry if a http connection failed
         authenticated = call_remote(:authenticate, "")
-        
+
         @authenticated = authenticated =~ /true/ ? true : false
       rescue
         @authenticated = false

@@ -3,11 +3,11 @@
 # For each +store_foo+ there's +assert_foo+, +assert_not_foo+, +verify_foo+,
 # +verify_not_foo+, +wait_for_foo+, +wait_for_not_foo+.
 module SeleniumOnRails::TestBuilderAccessors
-  
+
   # Tell Selenium to expect an error on the next command execution.
   #
-  # NOTE: <tt>store_error_on_next</tt> is currently not supported by 
-  # Selenium Core and is only added to here as a shortcut for 
+  # NOTE: <tt>store_error_on_next</tt> is currently not supported by
+  # Selenium Core and is only added to here as a shortcut for
   # generating the related assertions.
   #
   # Related Assertions, automatically generated:
@@ -20,11 +20,11 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_error_on_next message
     raise 'Not supported in Selenium Core at the moment'
   end
-  
+
   # Tell Selenium to expect a failure on the next command execution.
   #
-  # NOTE: <tt>store_failure_on_next</tt> is currently not supported by 
-  # Selenium Core and is only added to here as a shortcut for 
+  # NOTE: <tt>store_failure_on_next</tt> is currently not supported by
+  # Selenium Core and is only added to here as a shortcut for
   # generating the related assertions.
   #
   # Related Assertions, automatically generated:
@@ -37,7 +37,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_failure_on_next message
     raise 'Not supported in Selenium Core at the moment'
   end
-  
+
   # Returns the IDs of all windows that the browser knows about.
   #
   # Related Assertions, automatically generated:
@@ -50,7 +50,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_all_window_ids variable_name
     command 'storeAllWindowIds', variable_name
   end
-  
+
   # Returns the names of all windows that the browser knows about.
   #
   # Related Assertions, automatically generated:
@@ -63,7 +63,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_all_window_names variable_name
     command 'storeAllWindowNames', variable_name
   end
-  
+
   # Returns the titles of all windows that the browser knows about.
   #
   # Related Assertions, automatically generated:
@@ -76,8 +76,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_all_window_titles variable_name
     command 'storeAllWindowTitles', variable_name
   end
-  
-  # Has an alert occurred? 
+
+  # Has an alert occurred?
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_alert_present</tt>
@@ -89,7 +89,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_alert_present variable_name
     command 'storeAlertPresent', variable_name
   end
-  
+
   # Returns every instance of some attribute from all known windows.
   #
   # Related Assertions, automatically generated:
@@ -103,7 +103,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeAttributeFromAllWindows', attribute_name, variable_name
   end
 
-  # Has a prompt occurred? 
+  # Has a prompt occurred?
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_prompt_present</tt>
@@ -116,7 +116,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storePromptPresent', variable_name
   end
 
-  # Has <tt>confirm()</tt> been called? 
+  # Has <tt>confirm()</tt> been called?
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_confirmation_present</tt>
@@ -128,7 +128,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_confirmation_present variable_name
     command 'storeConfirmationPresent', variable_name
   end
-  
+
   # Return all cookies of the current page under test.
   #
   # Related Assertions, automatically generated:
@@ -141,11 +141,11 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_cookie variable_name
     command 'storeCookie', variable_name
   end
-  
-  # Retrieves the text cursor position in the given input element or 
+
+  # Retrieves the text cursor position in the given input element or
   # textarea; beware, this may not work perfectly on all browsers.
   #
-  # This method will fail if the specified element isn't an input element 
+  # This method will fail if the specified element isn't an input element
   # or textarea, or there is no cursor in the element.
   #
   # Related Assertions, automatically generated:
@@ -210,16 +210,16 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeConfirmation', variable_name
   end
 
-  # Retrieves the message of a JavaScript question prompt dialog generated 
-  # during the previous action. 
+  # Retrieves the message of a JavaScript question prompt dialog generated
+  # during the previous action.
   #
-  # Successful handling of the prompt requires prior execution of the 
-  # +answer_on_next_prompt+ command. If a prompt is generated but you do not 
+  # Successful handling of the prompt requires prior execution of the
+  # +answer_on_next_prompt+ command. If a prompt is generated but you do not
   # get/verify it, the next Selenium action will fail.
   #
   # NOTE: under Selenium, JavaScript prompts will NOT pop up a visible dialog.
   #
-  # NOTE: Selenium does NOT support JavaScript prompts that are generated in a 
+  # NOTE: Selenium does NOT support JavaScript prompts that are generated in a
   # page's <tt>onload()</tt> event handler. In this case a visible dialog WILL be
   # generated and Selenium will hang until someone manually clicks OK.
   #
@@ -234,7 +234,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storePrompt', variable_name
   end
 
-  # Gets the absolute URL of the current page. 
+  # Gets the absolute URL of the current page.
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_absolute_location(pattern)</tt>
@@ -247,8 +247,8 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeAbsoluteLocation', variable_name
   end
 
-  # Verify the location of the current page ends with the expected location. 
-  # If an URL querystring is provided, this is checked as well. 
+  # Verify the location of the current page ends with the expected location.
+  # If an URL querystring is provided, this is checked as well.
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_location(pattern)</tt>
@@ -260,8 +260,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_location expected_location, variable_name
     command 'storeLocation', expected_location, variable_name
   end
-  
-  # Returns the number of pixels between "mousemove" events during 
+
+  # Returns the number of pixels between "mousemove" events during
   # drag_and_drop commands (default=10).
   #
   # Related Assertions, automatically generated:
@@ -274,7 +274,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_mouse_speed variable_name
     command 'storeMouseSpeed', variable_name
   end
-  
+
   # Gets the title of the current page.
   #
   # Related Assertions, automatically generated:
@@ -303,7 +303,7 @@ module SeleniumOnRails::TestBuilderAccessors
 
   # Gets the (whitespace-trimmed) value of an input field (or anything else
   # with a value parameter). For checkbox/radio elements, the value will be
-  # "on" or "off" depending on whether the element is checked or not. 
+  # "on" or "off" depending on whether the element is checked or not.
   #
   # Related Assertions, automatically generated:
   # * <tt>assert_value(locator, pattern)</tt>
@@ -403,7 +403,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_selected locator, option_locator, variable_name
     raise 'Not supported in Selenium Core at the moment'
   end
-  
+
   # Gets option element ID for selected option in the specified select element.
   #
   # Related Assertions, automatically generated:
@@ -417,7 +417,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeSelectedId', select_locator, variable_name
   end
 
-  # Gets all option element IDs for selected options in the specified select 
+  # Gets all option element IDs for selected options in the specified select
   # or multi-select element.
   #
   # Related Assertions, automatically generated:
@@ -430,8 +430,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_selected_ids select_locator, variable_name
     command 'storeSelectedIds', select_locator, variable_name
   end
-  
-  # Gets option index (option number, starting at 0) for selected option in the 
+
+  # Gets option index (option number, starting at 0) for selected option in the
   # specified select element.
   #
   # Related Assertions, automatically generated:
@@ -445,7 +445,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeSelectedIndex', select_locator, variable_name
   end
 
-  # Gets all option indexes (option number, starting at 0) for selected options 
+  # Gets all option indexes (option number, starting at 0) for selected options
   # in the specified select or multi-select element.
   #
   # Related Assertions, automatically generated:
@@ -458,8 +458,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_selected_indexes select_locator, variable_name
     command 'storeSelectedIndexes', select_locator, variable_name
   end
-  
-  # Gets option label (visible text) for selected option in the specified select 
+
+  # Gets option label (visible text) for selected option in the specified select
   # element.
   #
   # Related Assertions, automatically generated:
@@ -473,7 +473,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeSelectedLabel', select_locator, variable_name
   end
 
-  # Gets all option labels (visible text) for selected options in the specified 
+  # Gets all option labels (visible text) for selected options in the specified
   # select or multi-select element.
   #
   # Related Assertions, automatically generated:
@@ -486,8 +486,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_selected_labels select_locator, variable_name
     command 'storeSelectedLabels', select_locator, variable_name
   end
-  
-  # Gets option value (value attribute) for selected option in the specified 
+
+  # Gets option value (value attribute) for selected option in the specified
   # select element.
   #
   # Related Assertions, automatically generated:
@@ -501,7 +501,7 @@ module SeleniumOnRails::TestBuilderAccessors
     command 'storeSelectedValue', select_locator, variable_name
   end
 
-  # Gets all option values (value attribute) for selected options in the specified 
+  # Gets all option values (value attribute) for selected options in the specified
   # select or multi-select element.
   #
   # Related Assertions, automatically generated:
@@ -514,7 +514,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_selected_values select_locator, variable_name
     command 'storeSelectedValues', select_locator, variable_name
   end
-  
+
   # Determines whether some option in a drop-down menu is selected.
   #
   # Related Assertions, automatically generated:
@@ -577,8 +577,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_attribute locator, attribute_name, variable_name
     command 'storeAttribute', "#{locator}@#{attribute_name}", variable_name
   end
-  
-  # Check if these two elements have same parent and are ordered. Two 
+
+  # Check if these two elements have same parent and are ordered. Two
   # same elements will not be considered ordered.
   #
   # NOTE: <tt>store_ordered</tt> is currently not supported by Selenium Core.
@@ -636,8 +636,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_visible locator, variable_name
     command 'storeVisible', locator, variable_name
   end
-  
-  # Retrieves the height of an element. This method will fail if the element 
+
+  # Retrieves the height of an element. This method will fail if the element
   # is not present.
   #
   # Related Assertions, automatically generated:
@@ -650,8 +650,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_element_height locator, variable_name
     command 'storeElementHeight', locator, variable_name
   end
-  
-  # Get the relative index of an element to its parent (starting from 0). 
+
+  # Get the relative index of an element to its parent (starting from 0).
   # The comment node and empty text node will be ignored.
   #
   # Related Assertions, automatically generated:
@@ -664,8 +664,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_element_index locator, variable_name
     command 'storeElementIndex', locator, variable_name
   end
-  
-  # Retrieves the width of an element. This method will fail if the element 
+
+  # Retrieves the width of an element. This method will fail if the element
   # is not present.
   #
   # Related Assertions, automatically generated:
@@ -678,8 +678,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_element_width locator, variable_name
     command 'storeElementWidth', locator, variable_name
   end
-  
-  # Retrieves the horizontal position of an element. This method will fail 
+
+  # Retrieves the horizontal position of an element. This method will fail
   # if the element is not present.
   #
   # Related Assertions, automatically generated:
@@ -692,8 +692,8 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_element_position_left locator, variable_name
     command 'storeElementPositionLeft', locator, variable_name
   end
-  
-  # Retrieves the vertical position of an element. This method will fail 
+
+  # Retrieves the vertical position of an element. This method will fail
   # if the element is not present.
   #
   # Related Assertions, automatically generated:
@@ -706,7 +706,7 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_element_position_top locator, variable_name
     command 'storeElementPositionTop', locator, variable_name
   end
-  
+
   # Return the contents of the log.
   #
   # Related Assertions, automatically generated:
@@ -822,18 +822,18 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_expression expression, variable_name
     command 'storeExpression', expression, variable_name
   end
-  
-  # Determine whether current/locator identify the frame containing this 
+
+  # Determine whether current/locator identify the frame containing this
   # running code.
   #
-  # This is useful in proxy injection mode, where this code runs in every 
-  # browser frame and window, and sometimes the selenium server needs to 
-  # identify the "current" frame. In this case, when the test calls select_frame, 
-  # this routine is called for each frame to figure out which one has been 
-  # selected. The selected frame will return true, while all others will return 
+  # This is useful in proxy injection mode, where this code runs in every
+  # browser frame and window, and sometimes the selenium server needs to
+  # identify the "current" frame. In this case, when the test calls select_frame,
+  # this routine is called for each frame to figure out which one has been
+  # selected. The selected frame will return true, while all others will return
   # false.
   #
-  # NOTE: <tt>store_whether_this_frame_match_frame_expression</tt> is currently 
+  # NOTE: <tt>store_whether_this_frame_match_frame_expression</tt> is currently
   # not supported by Selenium Core.
   #
   # Related Assertions, automatically generated:
@@ -846,17 +846,17 @@ module SeleniumOnRails::TestBuilderAccessors
   def store_whether_this_frame_match_frame_expression current_frame_string, target, variable_name
     raise 'Not supported in Selenium Core at the moment'
   end
-  
-  # Determine whether current_window_string plus target identify the window 
+
+  # Determine whether current_window_string plus target identify the window
   # containing this running code.
   #
-  # This is useful in proxy injection mode, where this code runs in every browser 
-  # frame and window, and sometimes the selenium server needs to identify the 
-  # "current" window. In this case, when the test calls select_window, this routine 
-  # is called for each window to figure out which one has been selected. The selected 
+  # This is useful in proxy injection mode, where this code runs in every browser
+  # frame and window, and sometimes the selenium server needs to identify the
+  # "current" window. In this case, when the test calls select_window, this routine
+  # is called for each window to figure out which one has been selected. The selected
   # window will return true, while all others will return false.
   #
-  # NOTE: <tt>store_whether_this_window_match_window_expression</tt> is currently 
+  # NOTE: <tt>store_whether_this_window_match_window_expression</tt> is currently
   # not supported by Selenium Core.
   #
   # Related Assertions, automatically generated:

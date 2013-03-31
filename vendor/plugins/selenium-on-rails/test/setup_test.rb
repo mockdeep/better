@@ -20,7 +20,7 @@ class SetupTest < Test::Unit::TestCase
     assert_response :success
     assert_tag :content => 'The session is wiped clean.'
   end
-  
+
   def test_session_no_reset
     @request.session['key'] = 'value'
     get :setup, :keep_session => true

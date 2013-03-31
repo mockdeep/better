@@ -33,10 +33,10 @@ class TestTheTestBuilderFunctions < Test::Unit::TestCase
     for function_name in iedoc_functions
 
       function_name.gsub!(/[A-Z]/) { |s| "_" + s.downcase }
-      
+
       test_description = "The function listed in the iedoc.xml file, " +
-                         "#{function_name}, exists in the test_builder files" 
-      
+                         "#{function_name}, exists in the test_builder files"
+
       if test_builder_actions_file.match(/def *#{function_name}/) ||
           test_builder_accessors_file.match(/(?:def *|tt>)#{function_name}/)
         assert true, test_description
@@ -44,8 +44,8 @@ class TestTheTestBuilderFunctions < Test::Unit::TestCase
         assert false, test_description
       end
     end
-    
+
   end
-  
+
 end
 

@@ -88,7 +88,7 @@ module Exceptional
     def ensure_json_able(value)
       begin
         value.to_json
-        true && value.instance_values.all? { |e| ensure_json_able(e)}        
+        true && value.instance_values.all? { |e| ensure_json_able(e)}
       rescue Exception => e
         false
       end

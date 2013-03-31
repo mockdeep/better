@@ -24,11 +24,11 @@ class SeleniumOnRails::RSelenese
     evaluator = Evaluator.new(@view)
     evaluator.run_script title, assign_locals_code_from(local_assigns) + "\n" + template.source, local_assigns
   end
-  
+
   def assign_locals_code_from(local_assigns)
     return local_assigns.keys.collect {|key| "#{key} = local_assigns[#{key.inspect}];"}.join
   end
-  
+
   def self.call(template)
     "#{name}.new(self).render(template, local_assigns)"
   end
@@ -38,7 +38,7 @@ class SeleniumOnRails::RSelenese
       table(title) do
         test = self #to enable test.command
         eval script
-      end 
+      end
     end
   end
 end

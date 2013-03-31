@@ -4,7 +4,7 @@ require 'active_record/fixtures'
 
 module SeleniumOnRails::FixtureLoader
   include SeleniumOnRails::Paths
-  
+
   def available_fixtures
     fixtures = {}
     path = fixtures_path + '/'
@@ -18,7 +18,7 @@ module SeleniumOnRails::FixtureLoader
       fixtures[fixture_set] ||= []
       fixtures[fixture_set] << fixture
     end
-    
+
     fixtures
   end
 
@@ -47,11 +47,11 @@ module SeleniumOnRails::FixtureLoader
 
   def clear_tables tables
     table_names = tables.split /\s*,\s*/
-    connection = ActiveRecord::Base.connection 
+    connection = ActiveRecord::Base.connection
     table_names.each do |table|
-      connection.execute "DELETE FROM #{table}" 
+      connection.execute "DELETE FROM #{table}"
     end
     table_names
   end
-  
+
 end

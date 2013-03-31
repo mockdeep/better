@@ -39,7 +39,7 @@ class SeleniumController
   def rescue_action e
     raise e
   end
-      
+
   def render options = nil
     if override_layout? options
       options[:layout] = false
@@ -48,7 +48,7 @@ class SeleniumController
     end
     super options
   end
-  
+
   private
     def override_layout? options
       return false unless @layout_override
@@ -65,11 +65,11 @@ class Test::Unit::TestCase
   def assert_text_equal expected, actual
     assert_equal clean_text(expected), clean_text(actual)
   end
-  
+
   def clean_text text
     text.gsub("\t", '  ').gsub("\r", '').gsub("\n", '').gsub(/ *</, '<')
   end
-  
+
 end
 
 module SeleniumOnRails::PathsTestHelper
@@ -80,7 +80,7 @@ end
 
 class TestView < ActionView::Base
   include SeleniumOnRails::PartialsSupport
-  
+
   # alias_method :render_partial_without_override, :render_partial
   # def render_partial partial_path = default_template_name, object = nil, local_assigns = nil, status = nil
   #   if @override
@@ -90,12 +90,12 @@ class TestView < ActionView::Base
   #     render_partial_without_override partial_path, object, local_assigns, status
   #   end
   # end
-  # 
+  #
   # def override_partial partial, type
   #   @override, @override_type = partial, type
   #   result = yield
   #   @override, @override_type = nil, nil
   #   result
   # end
-  
+
 end

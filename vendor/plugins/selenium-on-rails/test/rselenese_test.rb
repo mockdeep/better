@@ -2,30 +2,30 @@ require File.dirname(__FILE__) + '/test_helper'
 
 class RSeleneseTest < Test::Unit::TestCase
   include ERB::Util
-  
+
   # All this is exactly the same as selenese - with an r in front of it.  How do I kill the duplication
-  
+
   def render_rselenese(page_title, input)
     create_rsel_file_from(input, "html.rsel")
-    
+
     @view = TestView.new
     @view.extend(SeleniumOnRails::PathsTestHelper)
-    @sel = SeleniumOnRails::RSelenese.new(@view) 
+    @sel = SeleniumOnRails::RSelenese.new(@view)
     @sel.render ActionView::Template.new(test_path_for("html.rsel")), {'page_title' => page_title}
   end
-  
+
   def create_rsel_file_from(input, name)
     File.open(test_path_for(name), 'w+') { |index_file| index_file << input }
   end
-  
+
   def test_path_for(name)
     "#{File.expand_path(File.dirname(__FILE__) + "/../test_data")}/#{name}"
   end
-   
+
   def assert_rselenese expected, name, input
     assert_text_equal expected, render_rselenese(name, input)
   end
-  
+
   def test_empty
     expected = <<END
 <table>
@@ -50,7 +50,7 @@ END
     input = "#{name}(#{args_str})"
     assert_rselenese expected_html, 'Selenese Commands', input
   end
-  
+
   def test_render_rselenese_without_locals
     expected_html = <<END
 <table>
@@ -58,14 +58,14 @@ END
 </table>
 END
     create_rsel_file_from('', "html.rsel")
-    
+
     @view = TestView.new
     @view.extend(SeleniumOnRails::PathsTestHelper)
     @sel = SeleniumOnRails::RSelenese.new(@view)
-    
+
     assert_text_equal expected_html, @sel.render(ActionView::Template.new(test_path_for("html.rsel")))
   end
- 
+
   def test_element_locators
     assert_generates_command %w{click aCheckbox}, :click, 'aCheckbox'
     assert_generates_command %w{click document.foo}, :click, 'document.foo'
@@ -218,23 +218,23 @@ END
     assert_command_works :verify_alert_not_present
     assert_command_works :wait_for_alert_present
     assert_command_works :wait_for_alert_not_present
-    
-    assert_command_works :store_prompt_present, :variable 
+
+    assert_command_works :store_prompt_present, :variable
     assert_command_works :assert_prompt_present
     assert_command_works :assert_prompt_not_present
     assert_command_works :verify_prompt_present
     assert_command_works :verify_prompt_not_present
     assert_command_works :wait_for_prompt_present
     assert_command_works :wait_for_prompt_not_present
-    
-    assert_command_works :store_confirmation_present, :variable 
+
+    assert_command_works :store_confirmation_present, :variable
     assert_command_works :assert_confirmation_present
     assert_command_works :assert_confirmation_not_present
     assert_command_works :verify_confirmation_present
     assert_command_works :verify_confirmation_not_present
     assert_command_works :wait_for_confirmation_present
     assert_command_works :wait_for_confirmation_not_present
-    
+
     assert_command_works :store_alert, :variable
     assert_command_works :assert_alert, :pattern
     assert_command_works :assert_not_alert, :pattern
@@ -242,7 +242,7 @@ END
     assert_command_works :verify_not_alert, :pattern
     assert_command_works :wait_for_alert, :pattern
     assert_command_works :wait_for_not_alert, :pattern
-    
+
     assert_command_works :store_confirmation, :variable
     assert_command_works :assert_confirmation, :pattern
     assert_command_works :assert_not_confirmation, :pattern
@@ -250,7 +250,7 @@ END
     assert_command_works :verify_not_confirmation, :pattern
     assert_command_works :wait_for_confirmation, :pattern
     assert_command_works :wait_for_not_confirmation, :pattern
-    
+
     assert_command_works :store_prompt, :variable
     assert_command_works :assert_prompt, :pattern
     assert_command_works :assert_not_prompt, :pattern
@@ -258,7 +258,7 @@ END
     assert_command_works :verify_not_prompt, :pattern
     assert_command_works :wait_for_prompt, :pattern
     assert_command_works :wait_for_not_prompt, :pattern
-    
+
     assert_command_works :store_absolute_location, :variable
     assert_command_works :assert_absolute_location, :url
     assert_command_works :assert_not_absolute_location, :url
@@ -266,7 +266,7 @@ END
     assert_command_works :verify_not_absolute_location, :url
     assert_command_works :wait_for_absolute_location, :url
     assert_command_works :wait_for_not_absolute_location, :url
-    
+
     assert_command_works :store_location, :pattern, :variable
     assert_command_works :assert_location, :url
     assert_command_works :assert_not_location, :url
@@ -274,7 +274,7 @@ END
     assert_command_works :verify_not_location, :url
     assert_command_works :wait_for_location, :url
     assert_command_works :wait_for_not_location, :url
-    
+
     assert_command_works :store_title, :variable
     assert_command_works :assert_title, :pattern
     assert_command_works :assert_not_title, :pattern
@@ -282,7 +282,7 @@ END
     assert_command_works :verify_not_title, :pattern
     assert_command_works :wait_for_title, :pattern
     assert_command_works :wait_for_not_title, :pattern
-    
+
     assert_command_works :store_body_text, :variable
     assert_command_works :assert_body_text, :pattern
     assert_command_works :assert_not_body_text, :pattern
@@ -290,7 +290,7 @@ END
     assert_command_works :verify_not_body_text, :pattern
     assert_command_works :wait_for_body_text, :pattern
     assert_command_works :wait_for_not_body_text, :pattern
-    
+
     assert_command_works :store_value, :locator, :variable
     assert_command_works :assert_value, :locator, :pattern
     assert_command_works :assert_not_value, :locator, :pattern
@@ -298,7 +298,7 @@ END
     assert_command_works :verify_not_value, :locator, :pattern
     assert_command_works :wait_for_value, :locator, :pattern
     assert_command_works :wait_for_not_value, :locator, :pattern
-    
+
     assert_command_works :store_text, :locator, :variable
     assert_command_works :assert_text, :locator, :pattern
     assert_command_works :assert_not_text, :locator, :pattern
@@ -306,7 +306,7 @@ END
     assert_command_works :verify_not_text, :locator, :pattern
     assert_command_works :wait_for_text, :locator, :pattern
     assert_command_works :wait_for_not_text, :locator, :pattern
-    
+
     assert_command_works :store_eval, :script, :variable
     assert_command_works :assert_eval, :script, :pattern
     assert_command_works :assert_not_eval, :script, :pattern
@@ -314,7 +314,7 @@ END
     assert_command_works :verify_not_eval, :script, :pattern
     assert_command_works :wait_for_eval, :script, :pattern
     assert_command_works :wait_for_not_eval, :script, :pattern
-    
+
     assert_command_works :store_checked, :locator, :variable
     assert_command_works :assert_checked, :locator
     assert_command_works :assert_not_checked, :locator
@@ -322,7 +322,7 @@ END
     assert_command_works :verify_not_checked, :locator
     assert_command_works :wait_for_checked, :locator
     assert_command_works :wait_for_not_checked, :locator
-    
+
     assert_command_works :store_table, :table_locator, :variable
     assert_command_works :assert_table, :table_locator, :pattern
     assert_command_works :assert_not_table, :table_locator, :pattern
@@ -330,7 +330,7 @@ END
     assert_command_works :verify_not_table, :table_locator, :pattern
     assert_command_works :wait_for_table, :table_locator, :pattern
     assert_command_works :wait_for_not_table, :table_locator, :pattern
-    
+
     assert_raise RuntimeError do
       assert_command_works :store_selected, :locator, :option_locator, :variable
     end
@@ -340,7 +340,7 @@ END
     assert_command_works :verify_not_selected, :locator, :option_locator
     assert_command_works :wait_for_selected, :locator, :option_locator
     assert_command_works :wait_for_not_selected, :locator, :option_locator
-    
+
     assert_command_works :store_selected_id, :locator, :variable
     assert_command_works :assert_selected_id, :locator, :pattern
     assert_command_works :assert_not_selected_id, :locator, :pattern
@@ -348,7 +348,7 @@ END
     assert_command_works :verify_not_selected_id, :locator, :pattern
     assert_command_works :wait_for_selected_id, :locator, :pattern
     assert_command_works :wait_for_not_selected_id, :locator, :pattern
-    
+
     assert_command_works :store_selected_ids, :locator, :variable
     assert_command_works :assert_selected_ids, :locator, :pattern
     assert_command_works :assert_not_selected_ids, :locator, :pattern
@@ -356,7 +356,7 @@ END
     assert_command_works :verify_not_selected_ids, :locator, :pattern
     assert_command_works :wait_for_selected_ids, :locator, :pattern
     assert_command_works :wait_for_not_selected_ids, :locator, :pattern
-    
+
     assert_command_works :store_selected_index, :locator, :variable
     assert_command_works :assert_selected_index, :locator, :pattern
     assert_command_works :assert_not_selected_index, :locator, :pattern
@@ -364,7 +364,7 @@ END
     assert_command_works :verify_not_selected_index, :locator, :pattern
     assert_command_works :wait_for_selected_index, :locator, :pattern
     assert_command_works :wait_for_not_selected_index, :locator, :pattern
-    
+
     assert_command_works :store_selected_indexes, :locator, :variable
     assert_command_works :assert_selected_indexes, :locator, :pattern
     assert_command_works :assert_not_selected_indexes, :locator, :pattern
@@ -372,7 +372,7 @@ END
     assert_command_works :verify_not_selected_indexes, :locator, :pattern
     assert_command_works :wait_for_selected_indexes, :locator, :pattern
     assert_command_works :wait_for_not_selected_indexes, :locator, :pattern
-    
+
     assert_command_works :store_selected_label, :locator, :variable
     assert_command_works :assert_selected_label, :locator, :pattern
     assert_command_works :assert_not_selected_label, :locator, :pattern
@@ -380,7 +380,7 @@ END
     assert_command_works :verify_not_selected_label, :locator, :pattern
     assert_command_works :wait_for_selected_label, :locator, :pattern
     assert_command_works :wait_for_not_selected_label, :locator, :pattern
-    
+
     assert_command_works :store_selected_labels, :locator, :variable
     assert_command_works :assert_selected_labels, :locator, :pattern
     assert_command_works :assert_not_selected_labels, :locator, :pattern
@@ -388,7 +388,7 @@ END
     assert_command_works :verify_not_selected_labels, :locator, :pattern
     assert_command_works :wait_for_selected_labels, :locator, :pattern
     assert_command_works :wait_for_not_selected_labels, :locator, :pattern
-    
+
     assert_command_works :store_selected_value, :locator, :variable
     assert_command_works :assert_selected_value, :locator, :pattern
     assert_command_works :assert_not_selected_value, :locator, :pattern
@@ -396,7 +396,7 @@ END
     assert_command_works :verify_not_selected_value, :locator, :pattern
     assert_command_works :wait_for_selected_value, :locator, :pattern
     assert_command_works :wait_for_not_selected_value, :locator, :pattern
-    
+
     assert_command_works :store_selected_values, :locator, :variable
     assert_command_works :assert_selected_values, :locator, :pattern
     assert_command_works :assert_not_selected_values, :locator, :pattern
@@ -404,7 +404,7 @@ END
     assert_command_works :verify_not_selected_values, :locator, :pattern
     assert_command_works :wait_for_selected_values, :locator, :pattern
     assert_command_works :wait_for_not_selected_values, :locator, :pattern
-    
+
     assert_command_works :store_something_selected, :locator, :variable
     assert_command_works :assert_something_selected, :locator
     assert_command_works :assert_not_something_selected, :locator
@@ -412,7 +412,7 @@ END
     assert_command_works :verify_not_something_selected, :locator
     assert_command_works :wait_for_something_selected, :locator
     assert_command_works :wait_for_not_something_selected, :locator
-    
+
     assert_command_works :store_selected_options, :locator, :variable
     assert_command_works :assert_selected_options, :locator, :coll_pattern
     assert_command_works :assert_not_selected_options, :locator, :coll_pattern
@@ -420,7 +420,7 @@ END
     assert_command_works :verify_not_selected_options, :locator, :coll_pattern
     assert_command_works :wait_for_selected_options, :locator, :coll_pattern
     assert_command_works :wait_for_not_selected_options, :locator, :coll_pattern
-    
+
     assert_command_works :store_select_options, :locator, :variable
     assert_command_works :assert_select_options, :locator, :coll_pattern
     assert_command_works :assert_not_select_options, :locator, :coll_pattern
@@ -428,7 +428,7 @@ END
     assert_command_works :verify_not_select_options, :locator, :coll_pattern
     assert_command_works :wait_for_select_options, :locator, :coll_pattern
     assert_command_works :wait_for_not_select_options, :locator, :coll_pattern
-    
+
     assert_command_works :store_attribute, :locator_and_attribute_name, :variable
     assert_command_works :assert_attribute, :locator_and_attribute_name, :pattern
     assert_command_works :assert_not_attribute, :locator_and_attribute_name, :pattern
@@ -436,7 +436,7 @@ END
     assert_command_works :verify_not_attribute, :locator_and_attribute_name, :pattern
     assert_command_works :wait_for_attribute, :locator_and_attribute_name, :pattern
     assert_command_works :wait_for_not_attribute, :locator_and_attribute_name, :pattern
-    
+
     assert_raise RuntimeError do
       assert_command_works :store_ordered, :locator, :locator, :variable
     end
@@ -446,7 +446,7 @@ END
     assert_command_works :verify_not_ordered, :locator, :locator
     assert_command_works :wait_for_ordered, :locator, :locator
     assert_command_works :wait_for_not_ordered, :locator, :locator
-    
+
     assert_command_works :store_text_present, :pattern, :variable
     assert_command_works :assert_text_present, :pattern
     assert_command_works :assert_text_not_present, :pattern
@@ -454,7 +454,7 @@ END
     assert_command_works :verify_text_not_present, :pattern
     assert_command_works :wait_for_text_present, :pattern
     assert_command_works :wait_for_text_not_present, :pattern
-    
+
     assert_command_works :store_element_present, :locator, :variable
     assert_command_works :assert_element_present, :locator
     assert_command_works :assert_element_not_present, :locator
@@ -462,7 +462,7 @@ END
     assert_command_works :verify_element_not_present, :locator
     assert_command_works :wait_for_element_present, :locator
     assert_command_works :wait_for_element_not_present, :locator
-    
+
     assert_command_works :store_visible, :locator, :variable
     assert_command_works :assert_visible, :locator
     assert_command_works :assert_not_visible, :locator
@@ -470,7 +470,7 @@ END
     assert_command_works :verify_not_visible, :locator
     assert_command_works :wait_for_visible, :locator
     assert_command_works :wait_for_not_visible, :locator
-    
+
     assert_raise RuntimeError do
       assert_command_works :store_error_on_next, :string
     end
@@ -479,8 +479,8 @@ END
     assert_command_works :verify_error_on_next, :string
     assert_command_works :verify_not_error_on_next, :string
     assert_command_works :wait_for_error_on_next, :string
-    assert_command_works :wait_for_not_error_on_next, :string    
-    
+    assert_command_works :wait_for_not_error_on_next, :string
+
     assert_raise RuntimeError do
       assert_command_works :store_failure_on_next, :string
     end
@@ -490,7 +490,7 @@ END
     assert_command_works :verify_not_failure_on_next, :string
     assert_command_works :wait_for_failure_on_next, :string
     assert_command_works :wait_for_not_failure_on_next, :string
-    
+
     assert_command_works :store_all_window_ids, :variable
     assert_command_works :assert_all_window_ids, :pattern
     assert_command_works :assert_not_all_window_ids, :pattern
@@ -498,7 +498,7 @@ END
     assert_command_works :verify_not_all_window_ids, :pattern
     assert_command_works :wait_for_all_window_ids, :pattern
     assert_command_works :wait_for_not_all_window_ids, :pattern
-    
+
     assert_command_works :store_all_window_names, :variable
     assert_command_works :assert_all_window_names, :pattern
     assert_command_works :assert_not_all_window_names, :pattern
@@ -506,7 +506,7 @@ END
     assert_command_works :verify_not_all_window_names, :pattern
     assert_command_works :wait_for_all_window_names, :pattern
     assert_command_works :wait_for_not_all_window_names, :pattern
-    
+
     assert_command_works :store_all_window_titles, :variable
     assert_command_works :assert_all_window_titles, :pattern
     assert_command_works :assert_not_all_window_titles, :pattern
@@ -514,7 +514,7 @@ END
     assert_command_works :verify_not_all_window_titles, :pattern
     assert_command_works :wait_for_all_window_titles, :pattern
     assert_command_works :wait_for_not_all_window_titles, :pattern
-    
+
     assert_command_works :store_cookie, :variable
     assert_command_works :assert_cookie, :pattern
     assert_command_works :assert_not_cookie, :pattern
@@ -522,7 +522,7 @@ END
     assert_command_works :verify_not_cookie, :pattern
     assert_command_works :wait_for_cookie, :pattern
     assert_command_works :wait_for_not_cookie, :pattern
-    
+
     assert_command_works :store_log_messages, :variable
     assert_command_works :assert_log_messages, :pattern
     assert_command_works :assert_not_log_messages, :pattern
@@ -530,7 +530,7 @@ END
     assert_command_works :verify_not_log_messages, :pattern
     assert_command_works :wait_for_log_messages, :pattern
     assert_command_works :wait_for_not_log_messages, :pattern
-    
+
     assert_command_works :store_mouse_speed, :variable
     assert_command_works :assert_mouse_speed, :pattern
     assert_command_works :assert_not_mouse_speed, :pattern
@@ -538,7 +538,7 @@ END
     assert_command_works :verify_not_mouse_speed, :pattern
     assert_command_works :wait_for_mouse_speed, :pattern
     assert_command_works :wait_for_not_mouse_speed, :pattern
-    
+
     assert_command_works :store_cursor_position, :locator, :variable
     assert_command_works :assert_cursor_position, :locator, :pattern
     assert_command_works :assert_not_cursor_position, :locator, :pattern
@@ -546,7 +546,7 @@ END
     assert_command_works :verify_not_cursor_position, :locator, :pattern
     assert_command_works :wait_for_cursor_position, :locator, :pattern
     assert_command_works :wait_for_not_cursor_position, :locator, :pattern
-    
+
     assert_command_works :store_attribute_from_all_windows, :attribute_name, :variable
     assert_command_works :assert_attribute_from_all_windows, :attribute_name, :pattern
     assert_command_works :assert_not_attribute_from_all_windows, :attribute_name, :pattern
@@ -554,7 +554,7 @@ END
     assert_command_works :verify_not_attribute_from_all_windows, :attribute_name, :pattern
     assert_command_works :wait_for_attribute_from_all_windows, :attribute_name, :pattern
     assert_command_works :wait_for_not_attribute_from_all_windows, :attribute_name, :pattern
-    
+
     assert_command_works :store_element_height, :locator, :variable
     assert_command_works :assert_element_height, :locator, :dimension
     assert_command_works :assert_not_element_height, :locator, :dimension
@@ -562,7 +562,7 @@ END
     assert_command_works :verify_not_element_height, :locator, :dimension
     assert_command_works :wait_for_element_height, :locator, :dimension
     assert_command_works :wait_for_not_element_height, :locator, :dimension
-    
+
     assert_command_works :store_element_index, :locator, :variable
     assert_command_works :assert_element_index, :locator, :pattern
     assert_command_works :assert_not_element_index, :locator, :pattern
@@ -570,7 +570,7 @@ END
     assert_command_works :verify_not_element_index, :locator, :pattern
     assert_command_works :wait_for_element_index, :locator, :pattern
     assert_command_works :wait_for_not_element_index, :locator, :pattern
-    
+
     assert_command_works :store_element_width, :locator, :variable
     assert_command_works :assert_element_width, :locator, :dimension
     assert_command_works :assert_not_element_width, :locator, :dimension
@@ -578,7 +578,7 @@ END
     assert_command_works :verify_not_element_width, :locator, :dimension
     assert_command_works :wait_for_element_width, :locator, :dimension
     assert_command_works :wait_for_not_element_width, :locator, :dimension
-    
+
     assert_command_works :store_element_position_left, :locator, :variable
     assert_command_works :assert_element_position_left, :locator, :dimension
     assert_command_works :assert_not_element_position_left, :locator, :dimension
@@ -586,7 +586,7 @@ END
     assert_command_works :verify_not_element_position_left, :locator, :dimension
     assert_command_works :wait_for_element_position_left, :locator, :dimension
     assert_command_works :wait_for_not_element_position_left, :locator, :dimension
-    
+
     assert_command_works :store_element_position_top, :locator, :variable
     assert_command_works :assert_element_position_top, :locator, :dimension
     assert_command_works :assert_not_element_position_top, :locator, :dimension
@@ -594,7 +594,7 @@ END
     assert_command_works :verify_not_element_position_top, :locator, :dimension
     assert_command_works :wait_for_element_position_top, :locator, :dimension
     assert_command_works :wait_for_not_element_position_top, :locator, :dimension
-    
+
     assert_command_works :store_editable, :locator, :variable
     assert_command_works :assert_editable, :locator
     assert_command_works :assert_not_editable, :locator
@@ -602,7 +602,7 @@ END
     assert_command_works :verify_not_editable, :locator
     assert_command_works :wait_for_editable, :locator
     assert_command_works :wait_for_not_editable, :locator
-    
+
     assert_command_works :store_all_buttons, :variable
     assert_command_works :assert_all_buttons, :coll_pattern
     assert_command_works :assert_not_all_buttons, :coll_pattern
@@ -610,7 +610,7 @@ END
     assert_command_works :verify_not_all_buttons, :coll_pattern
     assert_command_works :wait_for_all_buttons, :coll_pattern
     assert_command_works :wait_for_not_all_buttons, :coll_pattern
-    
+
     assert_command_works :store_all_links, :variable
     assert_command_works :assert_all_links, :coll_pattern
     assert_command_works :assert_not_all_links, :coll_pattern
@@ -618,7 +618,7 @@ END
     assert_command_works :verify_not_all_links, :coll_pattern
     assert_command_works :wait_for_all_links, :coll_pattern
     assert_command_works :wait_for_not_all_links, :coll_pattern
-    
+
     assert_command_works :store_all_fields, :variable
     assert_command_works :assert_all_fields, :coll_pattern
     assert_command_works :assert_not_all_fields, :coll_pattern
@@ -626,7 +626,7 @@ END
     assert_command_works :verify_not_all_fields, :coll_pattern
     assert_command_works :wait_for_all_fields, :coll_pattern
     assert_command_works :wait_for_not_all_fields, :coll_pattern
-    
+
     assert_command_works :store_html_source, :variable
     assert_command_works :assert_html_source, :pattern
     assert_command_works :assert_not_html_source, :pattern
@@ -634,7 +634,7 @@ END
     assert_command_works :verify_not_html_source, :pattern
     assert_command_works :wait_for_html_source, :pattern
     assert_command_works :wait_for_not_html_source, :pattern
-    
+
     assert_command_works :store_expression, :script, :variable
     assert_command_works :assert_expression, :script, :pattern
     assert_command_works :assert_not_expression, :script, :pattern
@@ -642,7 +642,7 @@ END
     assert_command_works :verify_not_expression, :script, :pattern
     assert_command_works :wait_for_expression, :script, :pattern
     assert_command_works :wait_for_not_expression, :script, :pattern
-    
+
     assert_raise RuntimeError do
       assert_command_works :store_whether_this_frame_match_frame_expression, :string, :string, :variable
     end
@@ -652,7 +652,7 @@ END
     assert_command_works :verify_not_whether_this_frame_match_frame_expression, :string, :string
     assert_command_works :wait_for_whether_this_frame_match_frame_expression, :string, :string
     assert_command_works :wait_for_not_whether_this_frame_match_frame_expression, :string, :string
-    
+
     assert_raise RuntimeError do
       assert_command_works :store_whether_this_window_match_window_expression, :string, :string, :variable
     end
@@ -673,14 +673,14 @@ END
 END
     input = "include_partial 'override'"
     partial = "type 'partial', 'RSelenese partial'"
-    
+
     create_rsel_file_from(partial, "_override.rsel")
-    
+
     assert_rselenese expected, 'Partial support', input
-    
+
     File.delete(test_path_for("_override.rsel"))
   end
-  
+
   def test_partial_support_with_local_assigns
     expected = <<END_EXPECTED
 <table>
@@ -701,7 +701,7 @@ END_PARTIAL
     create_rsel_file_from(partial, "_override.rsel")
 
     assert_rselenese expected, 'Partial support with local variables', input
-    
+
     File.delete(test_path_for("_override.rsel"))
   end
 

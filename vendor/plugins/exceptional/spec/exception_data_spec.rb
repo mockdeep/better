@@ -6,11 +6,11 @@ describe Exceptional::ExceptionData do
       exception = mock('Exception', :backtrace => "/var/www/app/fail.rb:42 Error('There was an error')", :message => "There was an error", :class => 'Error')
       @exception_data = Exceptional::ExceptionData.new(exception)
     end
-    
+
     it "language should be ruby" do
       @exception_data.language.should == "ruby"
     end
-    
+
     it "should be valid" do
       @exception_data.should be_valid
     end
@@ -20,7 +20,7 @@ describe Exceptional::ExceptionData do
                                          :exception_backtrace => "/var/www/app/fail.rb:42 Error('There was an error')",
                                          :language => "ruby"}
     end
-        
+
     it "should convert to json" do
       @exception_data.to_json.class.should == String
     end

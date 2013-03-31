@@ -8,7 +8,7 @@ class SeleniumOnRailsConfig
 end
 
 class SeleniumOnRailsConfigTest < Test::Unit::TestCase
-  
+
   def setup
     SeleniumOnRailsConfig.reset_config
     @selenium_file = File.join(RAILS_ROOT, 'config', 'selenium.yml')
@@ -22,7 +22,7 @@ class SeleniumOnRailsConfigTest < Test::Unit::TestCase
     IO.expects(:read).with(@selenium_file).returns(@selenium_content)
     IO.expects(:read).with(@config_file).never
     IO.expects(:exist?).with(@config_file).never
-    
+
     assert_equal ["test_cache"], SeleniumOnRailsConfig.get(:environments)
     assert_equal({"firefox"=>"script/openfirefox"}, SeleniumOnRailsConfig.get(:browsers))
   end
@@ -32,11 +32,11 @@ class SeleniumOnRailsConfigTest < Test::Unit::TestCase
     File.expects(:exist?).with(@config_file).returns(true)
     IO.expects(:read).with(@config_file).returns(@config_content)
     IO.expects(:read).with(@selenium_file).never
-    
+
     assert_equal ["test"], SeleniumOnRailsConfig.get(:environments)
     expected_config = {"safari"=>"/Applications/Safari.app/Contents/MacOS/Safari",
-                       "firefox"=>"/Applications/Firefox.app/Contents/MacOS/firefox-bin"} 
-    
+                       "firefox"=>"/Applications/Firefox.app/Contents/MacOS/firefox-bin"}
+
     assert_equal(expected_config, SeleniumOnRailsConfig.get(:browsers))
   end
 

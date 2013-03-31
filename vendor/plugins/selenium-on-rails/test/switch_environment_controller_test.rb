@@ -8,7 +8,7 @@ class SwitchEnvironmentControllerTest < Test::Unit::TestCase
     @config = mock()
     setup_controller_test(SwitchEnvironmentController)
   end
-  
+
   def test_index
     SeleniumOnRailsConfig.expects(:get).with(:environments).returns("hello dolly")
     get :index
