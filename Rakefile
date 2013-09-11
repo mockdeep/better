@@ -7,3 +7,7 @@ require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'tasks/rails'
+
+task :run do 
+  `/script/server`
+end
