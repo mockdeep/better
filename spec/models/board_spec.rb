@@ -9,11 +9,10 @@ describe Board do
   before(:all) board.save
   after(:all) board.delete
 
-  describe "#reset_counters! should call class method" do
+  describe "#reset_counters!" do
     it "runs class method self.reset_counters with Board.id" do
       board.class.should_receive(:reset_counters!).with(board.id)
       board.reset_counters!
     end
   end
-
 end
