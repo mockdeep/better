@@ -6,8 +6,8 @@ describe Board do
       :project_id => 1) 
     }
   
-  before(:all) board.save
-  after(:all) board.delete
+  before(:all) { board.save }
+  after(:all) { board.delete }
 
   describe "#reset_counters!" do
     it "runs class method self.reset_counters with Board.id" do
