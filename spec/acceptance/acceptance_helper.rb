@@ -3,7 +3,7 @@ require "steak"
 require 'capybara/rails'
 
 Spec::Runner.configure do |config|
-  config.include Capybara
+  config.include Capybara::DSL
 end
 
 # Put your acceptance spec helpers inside /spec/acceptance/support

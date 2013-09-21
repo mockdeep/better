@@ -24,9 +24,25 @@ class ActivityStream < ActiveRecord::Base
     self.is_public = false if self.hidden_from_user_id > 0
   end
 
+  # Soft Delete in as some activites are necessary for site stats
+  def soft_destroy
+    self.update_attribute(:status, DELETED)
+  end
+  
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for an example usage.
+
+  def self.preference_join(location) # :nodoc:
+    # location is not tainted as it is a symbol from
+    # the code
+    "LEFT OUTER JOIN activity_stream_preferences p \
+      ON #{ACTIVITY_STREAM_USER_MODEL_ID} = actor_id  \
+      AND actor_type = '#{ACTIVITY_STREAM_USER_MODEL}'  \
+      AND activity_streams.activity = p.activity \
+      AND location = '#{location.to_s}'"
+  end
+  
   def self.recent_actors(actor, location, limit=12)
 
     unless actor.class.name == ACTIVITY_STREAM_USER_MODEL
@@ -48,7 +64,7 @@ class ActivityStream < ActiveRecord::Base
         :limit => limit)
     end
   end
-
+  
   # Finds the recent activities for a given actor, and honors
   # the users activity_stream_preferences.  Please see the README
   # for a sample usage.
@@ -64,15 +80,6 @@ class ActivityStream < ActiveRecord::Base
       :limit => limit)
   end
 
-  def self.preference_join(location) # :nodoc:
-    # location is not tainted as it is a symbol from
-    # the code
-    "LEFT OUTER JOIN activity_stream_preferences p \
-      ON #{ACTIVITY_STREAM_USER_MODEL_ID} = actor_id  \
-      AND actor_type = '#{ACTIVITY_STREAM_USER_MODEL}'  \
-      AND activity_streams.activity = p.activity \
-      AND location = '#{location.to_s}'"
-  end
 
   def self.fetch(user_id, project_id, with_subprojects, limit, max_created_at = nil)
     max_created_at = DateTime.now if max_created_at.nil? || max_created_at == ""
@@ -125,10 +132,6 @@ class ActivityStream < ActiveRecord::Base
     activities_by_item.sort_by{|g| - g[1][0][:created_at].to_i}
   end
 
-  # Soft Delete in as some activites are necessary for site stats
-  def soft_destroy
-    self.update_attribute(:status, DELETED)
-  end
 
 end
 
