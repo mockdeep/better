@@ -45,8 +45,8 @@ describe Credit do
 
   describe '#issue_shares' do
     context 'when not a previously_issued credit' do
-      credit.previously_issued = false
       it 'creates new shares' do
+        credit.stub(:previously_issued).and_return(false)
         expect {
           credit.issue_shares
         }.to change(Share, :count)
@@ -62,6 +62,33 @@ describe Credit do
         credit.previously_issued.should be_true
       end
     end
+  end
+
+  describe '#settled?' do
+    context 'when Credit is settled' do
+      it 'returns false' do
+      cr = Credit.new
+      cr.should_receive(:settled)
+      cr.settled?.should be_false
+      end
+    end
+  end
+
+  describe '#payout' do
+  end
+
+  describe '#self.round' do
+    it 'rounds Credit amount to ROUNDING_LEVEL decimal places' do
+      amount = 1.2345
+      ROUNDING_LEVEL = 2
+      Credit.round(amount).should == 1.23
+    end
+  end
+
+  describe '#settle' do
+  end
+
+  describe '#transfer' do
   end
 
 end

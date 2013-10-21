@@ -27,11 +27,11 @@ class Credit < ActiveRecord::Base
   end
 
   #For every credit that is issue, a corresponding share is issued
-  def issue_shares # spec_me cover_me heckle_me
+  def issue_shares # cover_me heckle_me
     Share.create! :amount => amount, :owner => owner, :project => project, :issued_on => issued_on unless previously_issued #We don't create shares if we're creating credit for a past issue date (i.e. in case of an incomplete payoff)
   end
 
-  def previously_issued # spec_me cover_me heckle_me
+  def previously_issued # cover_me heckle_me
     (issued_on - created_at) > 2 #if created date is different than issued on date (by more than a few milliseconds) then this was a previously issued credit, that's being recreated as portion of shares already given out
   end
 
@@ -58,7 +58,7 @@ class Credit < ActiveRecord::Base
     end
   end
 
-  def self.round(x) # spec_me cover_me heckle_me
+  def self.round(x) # cover_me heckle_me
       (x * 10**ROUNDING_LEVEL).floor.to_f / 10**ROUNDING_LEVEL #rounds down
   end
 
