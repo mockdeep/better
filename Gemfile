@@ -19,6 +19,7 @@ gem 'rack-timeout', '0.0.1'
 gem 'will_paginate', '2.3.15'
 gem 'grosser-ssl_requirement', :require => 'ssl_requirement'
 gem 'pg'
+gem 'rb-inotify', '~> 0.8.8'
 
 group :test do
   gem 'rcov'
