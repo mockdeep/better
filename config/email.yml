@@ -1,6 +1,5 @@
 # Outgoing email settings
 
-
 development:
   delivery_method: :smtp
   smtp_settings:
