@@ -47,4 +47,5 @@ group :development, :test do
   gem 'capybara'
   gem 'faker'
   gem 'steak'
+  gem 'rb-inotify', '~> 0.8.8'
 end

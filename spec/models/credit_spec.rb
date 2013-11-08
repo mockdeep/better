@@ -75,9 +75,28 @@ describe Credit do
   end
 
   describe '#payout' do
+    before :each do
+      credit.amount = 5
+      credit.save
+      Share.stub(:set_expiration)
+    end
+
+    context 'if payout amount is greater than credit amount' do
+      it 'returns false' do
+        credit.pay_out(7).should be_false
+      end
+    end
+
+    context 'if payout amount is less than credit amount' do
+      it 'creates new credit equal to the remaining balance' do
+        expect {
+          credit.pay_out(3)
+        }.to change(Credit, :count).by(1)
+      end
+    end
   end
 
-  describe '#self.round' do
+  describe '.round' do
     it 'rounds Credit amount to ROUNDING_LEVEL decimal places' do
       amount = 1.2345
       ROUNDING_LEVEL = 2
@@ -85,10 +104,60 @@ describe Credit do
     end
   end
 
-  describe '#settle' do
+  describe '.settle' do
+    let(:project) { Factory.create(:project) }
+    let!(:credit) { Credit.create!(:project => project, :enabled => true, :amount => 10) }
+
+    before :each do
+      Share.stub(:set_expiration)
+    end
+
+    context 'remaining amount exceeds day amount' do
+      it 'pays out full credit amount' do
+        Credit.settle(project, 20)
+        credit.reload.amount.should == 10
+      end
+    end
+
+    context 'remaining amount is a fraction of day amount' do
+      it 'pays out fractional credit amount' do
+        Credit.settle(project, 5)
+        credit.reload.amount.should == 5
+      end
+    end
   end
 
-  describe '#transfer' do
+  describe '.transfer' do
+    let(:project) { Factory.create(:project) }
+    let!(:credit) { Credit.create!(:project => project, :owner => sender, :amount => 10)}
+    let(:sender) { Factory.create(:user) }
+    let(:recipient) { Factory.create(:user) }
+
+    before :each do
+      Notification.stub(:create)
+    end
+
+    context 'when sender credit balance exceeds transfer amount' do
+      before :each do
+        Credit.transfer(sender, recipient, project, 3, "enjoy")
+      end
+
+      it 'transfers the full transfer amount to the recipient' do
+        recipient.credits.first.amount.should == 3
+      end
+
+      it 'computes remaining credit balance' do
+        credit.reload.amount.should == 7
+      end
+    end
+
+    context 'the sender credit blance is less than the transfer amount' do
+      it 'transfers all sender credit balance to recipient' do
+        Credit.transfer(sender, recipient, project, 20, "you are rich")
+        credit.reload.owner.should == recipient
+        credit.amount.should == 10
+      end
+    end
   end
 
 end
