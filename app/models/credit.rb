@@ -36,7 +36,7 @@ class Credit < ActiveRecord::Base
   end
 
   def settled? # heckle_me
-    return !self.settled.nil?
+    return !self.settled_on.nil?
   end
 
   def pay_out(pay_amount) # heckle_me
