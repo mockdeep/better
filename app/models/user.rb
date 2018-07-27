@@ -467,9 +467,9 @@ class User < ActiveRecord::Base
     token && token.user.active? ? token.user : nil
   end
 
-  def self.find_by_api_key(key) # spec_me cover_me heckle_me
+  def self.find_by_api_key(key) # heckle_me
     token = Token.find_by_action_and_value('api', key)
-    token && token.user.active? ? token.user : nil
+    token.user if token && token.user.active?
   end
 
   # Makes find_by_mail case-insensitive
