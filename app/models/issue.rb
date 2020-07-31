@@ -555,7 +555,15 @@ class Issue < ActiveRecord::Base
   private
 
   def lazy_majority_passed?
-    updated_at < DateTime.now - Setting::LAZY_MAJORITY_LENGTH
+    # Convert to string because date comparison was flaky. For some reason even
+    # when there was an entire day of separation, this comparison would
+    # seemingly randomly return `true` or `false` running this same check over
+    # and over. Converting with `to_s` turns this into a string comparison
+    # instead, which seems to be reliable. This problem may go away after
+    # upgrading beyond Ruby 1.8.7 or Rails 2.3, so we may be able to revert back
+    # to simple date comparison rather than using `to_s`.
+    updated_at.to_datetime.to_s(:iso8601) <
+      (DateTime.now - Setting::LAZY_MAJORITY_LENGTH).to_s(:iso8601)
   end
 
   # Callback on attachment deletion
