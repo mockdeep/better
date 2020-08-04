@@ -3,12 +3,12 @@ require 'spec_helper'
 describe ApplicationController, '#set_localization' do
   integrate_views(false)
 
-  class TestController < ApplicationController
+  class SetLocalizationSpecController < ApplicationController
     def index
     end
   end
 
-  controller_name :test
+  controller_name :set_localization_spec
 
   before { @existing_locale = I18n.locale }
 
