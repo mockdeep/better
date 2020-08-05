@@ -106,7 +106,7 @@ class IssuesController < ApplicationController
 
   # Add a new issue
   # The new issue will be created from an existing one if copy_from parameter is given
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @issue = Issue.new
     @issue.copy_from(params[:copy_from]) if params[:copy_from]
     @issue.project = @project
