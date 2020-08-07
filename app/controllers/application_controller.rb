@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
     require_login if Setting.login_required?
   end
 
-  def set_localization # spec_me heckle_me
+  def set_localization # heckle_me
     I18n.locale = params[:locale] || I18n.default_locale
 
     lang = nil
@@ -131,8 +131,8 @@ class ApplicationController < ActionController::Base
   end
 
   # Authorize the user for the requested action
-  def authorize(ctrl = params[:controller], action = params[:action], global = false) # spec_me heckle_me
-    return true if params[:format] == "png"
+  def authorize(ctrl = params[:controller], action = params[:action], global = false) # heckle_me
+    return true if params[:format] == "png" # security issue
     allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project, :global => global)
     allowed ? true : deny_access
   end
