@@ -67,7 +67,7 @@ class TodosController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # cover_me heckle_me
     @todo = Todo.find(params[:id])
     @todo.destroy
 
