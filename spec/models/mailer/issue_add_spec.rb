@@ -57,7 +57,7 @@ describe Mailer, '#issue_add' do
     user_2.add_as_core(issue.project)
 
     mail = Mailer.deliver_issue_add(issue)
-    mail.bcc.sort.should == [user.mail, user_2.mail]
+    mail.bcc.sort.should == [user.mail, user_2.mail].sort
   end
 
 end
