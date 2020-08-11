@@ -40,17 +40,15 @@ class MailsController < ApplicationController
     end
   end
 
-  def delete_selected # spec_me cover_me heckle_me
-    if request.post?
-      if params[:delete]
-        params[:delete].each { |id|
-          @mail = Mail.find(:first, :conditions => ["mails.id = ? AND (sender_id = ? OR recipient_id = ?)", id, @user, @user])
-          @mail.mark_deleted(@user) unless @mail.nil?
-        }
-        flash.now[:success] = "Messages deleted"
-      end
-      redirect_to user_mail_path(@user, @mails)
+  def delete_selected # cover_me heckle_me
+    if params[:delete]
+      params[:delete].each { |id|
+        @mail = Mail.find(:first, :conditions => ["mails.id = ? AND (sender_id = ? OR recipient_id = ?)", id, @user, @user])
+        @mail.mark_deleted(@user) unless @mail.nil?
+      }
+      flash[:success] = "Messages deleted"
     end
+    redirect_to user_mails_path(@user)
   end
 
   private
