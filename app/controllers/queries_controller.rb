@@ -6,7 +6,7 @@ class QueriesController < ApplicationController
   before_filter :find_query, :except => :new
   before_filter :find_optional_project, :only => :new
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @query = Query.new(params[:query])
     @query.project = params[:query_is_for_all] ? nil : @project
     @query.user = User.current
@@ -26,7 +26,7 @@ class QueriesController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # cover_me heckle_me
     if request.post?
       @query.filters = {}
       params[:fields].each do |field|
@@ -44,7 +44,7 @@ class QueriesController < ApplicationController
     end
   end
 
-  def destroy # spec_me cover_me heckle_me
+  def destroy # cover_me heckle_me
     @query.destroy if request.post?
     redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
   end
