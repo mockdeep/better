@@ -114,7 +114,7 @@ class UsersController < ApplicationController
      end
   end
 
-  def destroy_membership # spec_me cover_me heckle_me
+  def destroy_membership # cover_me heckle_me
     @user = User.find(params[:id])
     @membership = Member.find(params[:membership_id])
     if request.post? && @membership.deletable?
