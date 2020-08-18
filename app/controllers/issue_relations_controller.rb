@@ -5,7 +5,7 @@
 class IssueRelationsController < ApplicationController
   before_filter :find_project, :authorize
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @relation = IssueRelation.new(params[:relation])
     @relation.issue_from = @issue
     if params[:relation] && !params[:relation][:issue_to_id].blank?
