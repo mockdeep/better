@@ -112,7 +112,7 @@ class MyController < ApplicationController
     @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')
   end
 
-  def upgrade # spec_me cover_me heckle_me
+  def upgrade # cover_me heckle_me
     @user = User.current
     @plans = Plan.all
     @selected_plan = @user.plan
@@ -120,7 +120,7 @@ class MyController < ApplicationController
     if request.post?
       cc = params[:user][:b_cc_last_four]
       cc.gsub!(/[^0-9]/,'')
-      logger.info { "length #{cc.length} #{cc}" }
+
       if cc.length > 14
         params[:user][:b_cc_last_four] = ("XXXX-") + params[:user][:b_cc_last_four][cc.length-4,cc.length-1]
       else

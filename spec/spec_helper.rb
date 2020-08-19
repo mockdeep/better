@@ -33,6 +33,7 @@ Spork.prefork do
       DatabaseCleaner.clean
       DatabaseCleaner.strategy = :transaction
       load_seeds if integration?
+      FakeWeb.clean_registry
     end
   end
 
