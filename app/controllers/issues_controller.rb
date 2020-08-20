@@ -649,7 +649,7 @@ class IssuesController < ApplicationController
     render :layout => false if request.xhr?
   end
 
-  def context_menu # spec_me cover_me heckle_me
+  def context_menu # cover_me heckle_me
     @issues = Issue.find_all_by_id(params[:ids], :include => :project)
     if (@issues.size == 1)
       @issue = @issues.first
