@@ -23,7 +23,7 @@ class WatchersController < ApplicationController
     set_watcher(User.current, false)
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @watcher = Watcher.new(params[:watcher])
     @watcher.watchable = @watched
     @watcher.save if request.post?
@@ -54,7 +54,7 @@ class WatchersController < ApplicationController
   private
 
   def find_project # cover_me heckle_me
-    klass = Object.const_get(params[:object_type].camelcase)
+    klass = Object.const_get(params[:object_type].camelcase) # security: don't constantize param from client
     return false unless klass.respond_to?('watched_by')
     @watched = klass.find(params[:object_id])
     @project = @watched.project
