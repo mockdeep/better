@@ -31,12 +31,13 @@ class IssueVotesController < ApplicationController
     @issue_vote = IssueVote.find(params[:id])
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # cover_me heckle_me
+    # security: we accept user_id and set it on the vote
     @issue_vote = IssueVote.new(params[:issue_vote])
 
     respond_to do |format|
       if @issue_vote.save
-        flash.now[:success] = 'IssueVote was successfully created.'
+        flash[:success] = 'IssueVote was successfully created.'
         format.html { redirect_to(@issue_vote) }
         format.xml  { render :xml => @issue_vote, :status => :created, :location => @issue_vote }
       else
