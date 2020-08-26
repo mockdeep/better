@@ -5,7 +5,7 @@
 class JournalsController < ApplicationController
   before_filter :find_journal
 
-  def edit # spec_me cover_me heckle_me
+  def edit # cover_me heckle_me
     if request.post?
       @journal.update_attributes(:notes => params[:notes]) if params[:notes]
       if @journal.details.empty? && @journal.notes.blank?
