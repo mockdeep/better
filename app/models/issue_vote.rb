@@ -4,6 +4,8 @@ class IssueVote < ActiveRecord::Base
   before_create :remove_similar
   before_save :set_binding
 
+  validates_presence_of :user_id, :issue_id, :points, :vote_type
+
   AGREE_VOTE_TYPE = 1
   ACCEPT_VOTE_TYPE = 2
   PRI_VOTE_TYPE = 3
