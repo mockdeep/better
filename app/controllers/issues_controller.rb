@@ -501,7 +501,7 @@ class IssuesController < ApplicationController
   end
 
   # Bulk edit a set of issues
-  def bulk_edit # spec_me cover_me heckle_me
+  def bulk_edit # cover_me heckle_me
     if request.post?
       tracker = params[:tracker_id].blank? ? nil : @project.trackers.find_by_id(params[:tracker_id])
       status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
@@ -531,7 +531,6 @@ class IssuesController < ApplicationController
       redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
       return
     end
-    @available_statuses = Workflow.available_statuses(@project)
   end
 
   def move # spec_me cover_me heckle_me
