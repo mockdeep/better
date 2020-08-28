@@ -6,7 +6,7 @@ class MembersController < ApplicationController
   before_filter :find_project, :only => [:new, :autocomplete_for_member]
   before_filter :authorize
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     members = []
     if params[:member] && request.post?
       attrs = params[:member].dup
