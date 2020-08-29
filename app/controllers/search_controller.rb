@@ -8,7 +8,7 @@ class SearchController < ApplicationController
   helper :messages
   include MessagesHelper
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     @question = params[:q] || ""
     @question.strip!
     @all_words = params[:all_words] || (params[:submit] ? false : true)

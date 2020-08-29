@@ -17,7 +17,7 @@ class NewsController < ApplicationController
               :indirect_object_description_method => :comments,
               :indirect_object_phrase => '' }
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     @news_pages, @newss = paginate :news,
                                    :per_page => 10,
                                    :conditions => Project.allowed_to_condition(User.current, :view_news, :project => @project),

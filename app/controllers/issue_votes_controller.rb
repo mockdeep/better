@@ -18,7 +18,7 @@ class IssueVotesController < ApplicationController
     end
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @issue_vote = IssueVote.new
 
     respond_to do |format|
