@@ -338,7 +338,7 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def update_scale # spec_me cover_me heckle_me
+  def update_scale # cover_me heckle_me
     render :update do |page|
       page.replace 'point_scale', :partial => 'point_scale', :locals => {:dpp => params[:dpp] }
       page["point_scale"].visual_effect :highlight
@@ -505,7 +505,7 @@ class ProjectsController < ApplicationController
   end
 
   #params that can be passed: length, with_subprojects, and author
-  def activity # spec_me cover_me heckle_me
+  def activity # cover_me heckle_me
 
   rescue ActiveRecord::RecordNotFound
     render_404

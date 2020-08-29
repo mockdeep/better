@@ -2,7 +2,7 @@ class MailsController < ApplicationController
 
   before_filter :set_user
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     if params[:mailbox] == "sent"
       @mails = @user.sent_messages
     else
@@ -14,7 +14,7 @@ class MailsController < ApplicationController
     @mail = Mail.read_and_get(params[:id], User.current)
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @mail = Mail.new
 
     if params[:reply_to]

@@ -24,7 +24,7 @@ class WelcomeController < ApplicationController
     end
   end
 
-  def robots # spec_me cover_me heckle_me
+  def robots # cover_me heckle_me
     @projects = Project.all_public.active
     render :layout => false, :content_type => 'text/plain'
   end
