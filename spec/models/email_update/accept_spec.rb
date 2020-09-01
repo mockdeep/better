@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe EmailUpdate, '#accept' do
 
-  let(:email_update) { EmailUpdate.create!(:activated => false) }
+  let(:email_update) { EmailUpdate.create!(:activated => false, :mail => 'b@b.com') }
 
   before(:each) { Mailer.stub(:send_later) }
 
