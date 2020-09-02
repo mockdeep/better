@@ -1,6 +1,8 @@
 class EmailUpdate < ActiveRecord::Base
   belongs_to :user
 
+  validates_presence_of :mail
+
   def before_create # heckle_me
     self.token = Token.generate_token_value
   end

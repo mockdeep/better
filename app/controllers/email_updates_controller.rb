@@ -10,7 +10,7 @@ class EmailUpdatesController < ApplicationController
     end
   end
 
-  def create # spec_me cover_me heckle_me
+  def create # cover_me heckle_me
     @email_update = EmailUpdate.new(params[:email_update])
     @email_update.user = User.current
 
