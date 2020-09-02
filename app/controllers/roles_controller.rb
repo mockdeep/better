@@ -9,17 +9,17 @@ class RolesController < ApplicationController
   verify :method => :post, :only => [ :destroy, :move ],
          :redirect_to => { :action => :list }
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
 
-  def list # spec_me cover_me heckle_me
+  def list # cover_me heckle_me
     @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     # Prefills the form with 'Non member' role permissions
     @role = Role.new(params[:role] || {:permissions => Role.non_member.permissions})
     if request.post? && @role.save
