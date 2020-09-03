@@ -20,12 +20,12 @@ class SettingsController < ApplicationController
 
   before_filter :require_admin
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     edit
     render :action => 'edit'
   end
 
-  def edit # spec_me cover_me heckle_me
+  def edit # cover_me heckle_me
     @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted wiki_content_added wiki_content_updated)
     if request.post? && params[:settings] && params[:settings].is_a?(Hash)
       settings = (params[:settings] || {}).dup.symbolize_keys
@@ -34,7 +34,7 @@ class SettingsController < ApplicationController
         value.delete_if {|v| v.blank? } if value.is_a?(Array)
         Setting[name] = value
       end
-      flash.now[:success] = l(:notice_successful_update)
+      flash[:success] = l(:notice_successful_update)
       redirect_to :action => 'edit', :tab => params[:tab]
       return
     end
