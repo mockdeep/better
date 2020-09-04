@@ -7,26 +7,26 @@ class TrackersController < ApplicationController
 
   before_filter :require_admin
 
-  def index # spec_me cover_me heckle_me
+  def index # cover_me heckle_me
     list
     render :action => 'list' unless request.xhr?
   end
 
   verify :method => :post, :only => :destroy, :redirect_to => { :action => :list }
 
-  def list # spec_me cover_me heckle_me
+  def list # cover_me heckle_me
     @tracker_pages, @trackers = paginate :trackers, :per_page => 10, :order => 'position'
     render :action => "list", :layout => false if request.xhr?
   end
 
-  def new # spec_me cover_me heckle_me
+  def new # cover_me heckle_me
     @tracker = Tracker.new(params[:tracker])
     if request.post? and @tracker.save
       # workflow copy
       if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
         @tracker.workflows.copy(copy_from)
       end
-      flash.now[:success] = l(:notice_successful_create)
+      flash[:success] = l(:notice_successful_create)
       redirect_to :action => 'list'
       return
     end
