@@ -119,6 +119,7 @@ class User < ActiveRecord::Base
 
 
   def before_create # heckle_me
+    self.plan ||= Plan.free
     self.mail_notification = false
     self.login = self.login.downcase
     true
