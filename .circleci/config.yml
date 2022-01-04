@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ruby_image:
     docker:
-      - image: mockdeep/better:latest
+      - image: mockdeep/better:0.2
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -28,7 +28,6 @@ commands:
           name: set up rvm/ruby/etc
           command: |
             # https://github.com/circleci-public/dockerfile-wizard
-            apt-get update
             apt-get install software-properties-common imagemagick libmagickcore-dev libmagickwand-dev libpq-dev --yes
             ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.9.10/bin-q16/Magick-config /usr/bin/Magick-config
             # curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
