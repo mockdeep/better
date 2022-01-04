@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ruby_image:
     docker:
-      - image: ubuntu:latest
+      - image: mockdeep/better:latest
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -28,15 +28,15 @@ commands:
           name: set up rvm/ruby/etc
           command: |
             # https://github.com/circleci-public/dockerfile-wizard
-            apt-get update && apt-get upgrade --yes --force-yes
-            apt-get install software-properties-common imagemagick libmagickcore-dev libmagickwand-dev libpq-dev --yes --force-yes
+            apt-get update
+            apt-get install software-properties-common imagemagick libmagickcore-dev libmagickwand-dev libpq-dev --yes
             ln -s /usr/lib/x86_64-linux-gnu/ImageMagick-6.9.10/bin-q16/Magick-config /usr/bin/Magick-config
             # curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
             # echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
             apt-add-repository -y ppa:rael-gc/rvm
             apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8094BB14F4E3FBBE
             apt-get update
-            apt-get install rvm --yes --force-yes
+            apt-get install rvm --yes
             source /usr/share/rvm/scripts/rvm
             rvm use 1.8.7 --default --install
             rvm rubygems 1.8.25 --force
