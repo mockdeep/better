@@ -2,7 +2,7 @@ version: 2.1
 executors:
   ruby_image:
     docker:
-      - image: mockdeep/better:0.4
+      - image: mockdeep/better:0.5
         environment:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -29,34 +29,31 @@ commands:
       - run:
           name: Which versions?
           command: |
-            source /usr/share/rvm/scripts/rvm
             ruby -v
             gem -v
             bundle -v
 
       - restore_cache:
           keys:
-            - better-bundle-{{ checksum "Gemfile.lock" }}
+            - better-bundle-v1-{{ checksum "Gemfile.lock" }}
             - better-bundle-
 
       - run: # Install Ruby dependencies
           name: Bundle Install
           command: |
-            source /usr/share/rvm/scripts/rvm
             bundle check || bundle install
 
       - save_cache:
-          key: better-bundle-{{ checksum "Gemfile.lock" }}
+          key: better-bundle-v1-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
       - run:
           name: Database setup
           command: |
-            source /usr/share/rvm/scripts/rvm
             cp config/database.yml.example config/database.yml
-            rake db:create
-            rake db:schema:load
+            bundle exec rake db:create
+            bundle exec rake db:schema:load
 
 jobs:
   unit_tests:
@@ -66,7 +63,6 @@ jobs:
       - run:
           name: Run unit tests
           command: |
-            source /usr/share/rvm/scripts/rvm
             bundle exec spec spec/controllers/
             bundle exec spec spec/models/
             bundle exec spec spec/lib/
