@@ -30,12 +30,10 @@ commands:
           name: Which versions?
           command: |
             source /usr/share/rvm/scripts/rvm
-            rvm use 1.8.7 --default --install
             ruby -v
             gem -v
             bundle -v
 
-      # https://circleci.com/docs/2.0/caching/
       - restore_cache:
           keys:
             - better-bundle-{{ checksum "Gemfile.lock" }}
@@ -45,7 +43,6 @@ commands:
           name: Bundle Install
           command: |
             source /usr/share/rvm/scripts/rvm
-            rvm use 1.8.7 --default --install
             bundle check || bundle install
 
       - save_cache:
@@ -53,15 +50,10 @@ commands:
           paths:
             - vendor/bundle
 
-      # - run:
-      #     name: Wait for DB
-      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
       - run:
           name: Database setup
           command: |
             source /usr/share/rvm/scripts/rvm
-            rvm use 1.8.7 --default --install
             cp config/database.yml.example config/database.yml
             rake db:create
             rake db:schema:load
@@ -75,13 +67,12 @@ jobs:
           name: Run unit tests
           command: |
             source /usr/share/rvm/scripts/rvm
-            rvm use 1.8.7 --default --install
             bundle exec spec spec/controllers/
             bundle exec spec spec/models/
             bundle exec spec spec/lib/
             bundle exec spec spec/routing/
 
-      - store_test_results: # https://circleci.com/docs/2.0/collect-test-data/
+      - store_test_results:
           path: test_results
 
 workflows:
