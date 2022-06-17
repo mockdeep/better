@@ -79,7 +79,7 @@ GEM
     highline (1.6.21)
     honeybadger (1.10.0)
       json
-    i18n (0.6.4)
+    i18n (0.6.11)
     json (1.8.1)
     json_pure (1.7.7)
     launchy (2.4.2)
