@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:9.2-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    image: mockdeep/better:0.5
+    command: sleep infinity
+    working_dir: /app
+    volumes:
+      - .:/app
+      - bundle:/bundle
+    ports:
+      - "3000:3000"
+    environment:
+      BUNDLE_PATH: /bundle
+      BUNDLE_JOBS: 3
+      BUNDLE_RETRY: 3
+      BETTER_S3_ACCESS_KEY_ID: trash
+      BETTER_S3_SECRET_ACCESS_KEY: trash
+      BETTER_SESSION_KEY: _better_session
+      BETTER_SESSION_SECRET: dev_secret_not_for_production_use_0123456789abcdef0123456789abcdef
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+  bundle:
