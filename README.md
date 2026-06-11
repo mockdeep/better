@@ -1,18 +1,8 @@
 [![Build Status](https://circleci.com/gh/mockdeep/better.svg?style=svg)](https://circleci.com/gh/mockdeep/better)
 [![Code Climate](https://codeclimate.com/github/mockdeep/better.png)](https://codeclimate.com/github/mockdeep/better)
-[![Dependency Status](https://gemnasium.com/mockdeep/better.png)](https://gemnasium.com/mockdeep/better)
-
-live server hosted at: https://better.boon.gl
 
 *** Use at your own risk!!! There are likely to be vulnerabilities in this
 app!!! ***
-
-Support this project
---------------------
-[![Pledgie](https://pledgie.com/campaigns/27557.png)](https://pledgie.com/campaigns/27557)
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=lobati&url=https://github.com/mockdeep/better&title=Better&language=&tags=github&category=software)
-[![Bountysource](https://www.bountysource.com/badge/tracker?tracker_id=416557)](https://www.bountysource.com/trackers/416557-mockdeep-better?utm_source=416557&utm_medium=shield&utm_campaign=TRACKER_BADGE)
-[![Gratipay](https://img.shields.io/gratipay/mockdeep.svg)](https://www.gratipay.com/mockdeep/)
 
 Roadmap
 -------
@@ -53,61 +43,17 @@ details on the biggest area we could use help with: testing.
 Pre-requisites
 --------------
 
-I recommend using rvm to manage your ruby versions: https://rvm.io/
-For Ubuntu machines, you can install the repo from here: https://github.com/rvm/ubuntu_rvm
-The repo provides dependencies for older versions of Ruby, so may be your best option.
+All you need is [Docker](https://docs.docker.com/get-started/get-docker/).
+Development runs in containers via `docker compose`: the app runs in the
+[`mockdeep/better`](https://hub.docker.com/r/mockdeep/better) image (Ubuntu
+16.04 with Ruby 1.8.7-p375, RubyGems 1.8.25, and Bundler 1.10.6 — the same
+image CI uses) alongside PostgreSQL 9.2. No local Ruby, Postgres, or
+ImageMagick installation is needed.
 
-```sh
-# install ruby:
-rvm install 1.8.7-p374
-
-# set ruby version:
-rvm use 1.8.7
-
-# set the rubygems version:
-rvm rubygems 1.8.25 --force
-
-# need an older version of bundler for now:
-gem install -v 1.10.6 bundler --no-rdoc --no-ri
-
-# install postgres:
-# mac
-brew install postgres
-# debian linux
-sudo apt-get install postgresql postgresql-client postgresql-contrib
-
-# You will need PostgresQL version 8.4 or thereabouts
-# You can find repos for Linux here: https://wiki.postgresql.org/wiki/Apt
-
-# NOTE: only do this in development mode, as it puts your database in an
-# insecure state.
-# update the end of /etc/postgresql/9.1/main/pg_hba.conf to look like this:
-# # TYPE  DATABASE    USER        CIDR-ADDRESS          METHOD
-# # "local" is for Unix domain socket connections only
-# local   all         all                               trust
-# # IPv4 local connections:
-# host    all         all         127.0.0.1/32          trust
-# # IPv6 local connections:
-# host    all         all         ::1/128               trust
-
-# then run:
-sudo /etc/init.d/postgresql restart
-
-# set up a postgres user:
-sudo -u postgres createuser -s $(whoami)
-
-# Imagemagick is also a dependency. You'll need an older version to be
-# compatible with rmagick, which can be a bit of a pain on MacOS. See here for
-# more details: http://stackoverflow.com/a/13967303/372479
-# It's easier on Debian Linux:
-sudo apt-get install imagemagick libmagickwand-dev
-
-# and QT
-# Mac:
-brew install qt
-# Debian Linux:
-sudo apt-get install libqt4-dev libqtwebkit-dev
-```
+Note: the `mockdeep/better` image is built from the `Dockerfile` in this repo,
+but rebuilding it is no longer straightforward since Ubuntu 16.04's apt
+archives moved to old-releases.ubuntu.com. Treat the published image as the
+source of truth.
 
 Getting started
 ---------------
@@ -122,36 +68,50 @@ cd better/
 # Add this copy as upstream:
 git remote add upstream https://github.com/mockdeep/better.git
 
-# now install gems:
-bundle install
-
 # set up database config:
-mv config/database.yml.example config/database.yml
+cp config/database.yml.example config/database.yml
 
-# in development mode, for the simplest setup you should be able to remove the
-# username and password options from `config/database.yml` for the development
-# and test group
+# then edit config/database.yml: under the development and test groups, change
+# `host: localhost` to `host: db` (the postgres container) and add
+# `username: postgres`
 
-# You'll need to set up aws access keys in your environment. For testing only,
-# you can set the keys to "trash" just to run the specs
-export BETTER_S3_ACCESS_KEY_ID=trash
-export BETTER_S3_SECRET_ACCESS_KEY=trash
+# start the containers (dummy AWS keys and session secrets for development are
+# set in docker-compose.yml):
+docker compose up -d
 
-# set up database:
-rake db:create:all && rake db:schema:load
+# install gems (they go into a named volume, so this persists across
+# container restarts):
+docker compose exec app bundle install
 
-# seed data into the database:
-rake db:seed
+# set up the development database:
+docker compose exec app bundle exec rake db:create db:schema:load db:seed
 
 # set up the test database:
-rake db:test:prepare
+docker compose exec app bundle exec rake db:test:prepare
 
 # and run the tests:
-rake spec
+docker compose exec app bundle exec rake spec
 
 # if all passes, then you should be good to go. Please open an issue if you
-# have any problems. You can boot up your server on localhost with:
-script/server
+# have any problems. You can boot up your server with:
+docker compose exec app bundle exec script/server -b 0.0.0.0
+
+# then visit http://localhost:3000
+```
+
+Running tests
+-------------
+
+```sh
+# the whole suite:
+docker compose exec app bundle exec rake spec
+
+# a single directory or file:
+docker compose exec app bundle exec spec spec/models/
+docker compose exec app bundle exec spec spec/models/board/visible_predicate_spec.rb
+
+# with code coverage (writes to coverage/index.html):
+docker compose exec app bundle exec rake spec:rcov
 ```
 
 Production
@@ -241,8 +201,8 @@ describe MyClass, '#some_method' do
 end
 ```
 
-You can check the coverage of tests by running `rake spec:rcov`. It generates
-a coverage directory. Open `coverage/index.html` in your browser to view the
+You can check the coverage of tests by running `docker compose exec app
+bundle exec rake spec:rcov`. It generates a coverage directory. Open `coverage/index.html` in your browser to view the
 output and find a class that still needs test coverage.
 
 ### heckle_me
@@ -257,14 +217,8 @@ did not cause your tests to fail.
 You can run heckle like this:
 
 ```sh
-spec spec/models/board/visible_predicate_spec.rb --heckle Board#visible?
+docker compose exec app bundle exec spec spec/models/board/visible_predicate_spec.rb --heckle Board#visible?
 ```
-
-Translating
------------
-
-You can find language specific translation groups at:
-https://www.transifex.net/projects/p/better/
 
 Known issues
 ------------

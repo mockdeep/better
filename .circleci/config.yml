@@ -24,7 +24,15 @@ executors:
 commands:
   setup_environment:
     steps:
-      - checkout
+      # The native checkout step can't be used here: it runs the container's
+      # 2016-era git/ssh, which can't do blobless clones (git < 2.19) or
+      # authenticate to GitHub with RSA keys (OpenSSH < 7.8, no rsa-sha2).
+      # The repo is public, so clone over HTTPS instead.
+      - run:
+          name: Checkout code
+          command: |
+            git clone "https://github.com/mockdeep/better.git" .
+            git checkout "$CIRCLE_SHA1"
 
       - run:
           name: Which versions?
